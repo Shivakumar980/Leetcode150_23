@@ -1,25 +1,22 @@
 class Solution {
-    int minDiff = Integer.MAX_VALUE;
-    TreeNode prev = null;
+    int min = Integer.MAX_VALUE;
+    int prev = Integer.MAX_VALUE;
+    
 
     public int getMinimumDifference(TreeNode root) {
-        inorderTraversal(root);
-        return minDiff;
+        helper(root);
+        return min;
     }
 
-    private void inorderTraversal(TreeNode root) {
+    private void helper(TreeNode root) {
         if (root == null) {
             return;
         }
-
-        inorderTraversal(root.left);
-
-        if (prev != null) {
-            minDiff = Math.min(minDiff, root.val - prev.val);
-        }
-
-        prev = root;
-
-        inorderTraversal(root.right);
+      helper(root.left);
+        min=Math.min(min,Math.abs(root.val-prev));
+        prev=root.val;
+        
+       
+        helper(root.right);
     }
 }
