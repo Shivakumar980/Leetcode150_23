@@ -1,30 +1,43 @@
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    List <Integer> lis=new ArrayList();
     public List<Integer> rightSideView(TreeNode root) {
-        helper(root); 
-        return lis;  
+        HashMap<Integer,List<Integer>> al=new HashMap<>();
+        ArrayList<Integer> res=new ArrayList<>();
+        rightSideViewUtil(root,al,0);
+        System.out.println(al);
+        al.forEach((key, value) -> {
+            res.add(value.get(0));
+            //System.out.println(res);
+        });
+        return res;
     }
-    private void helper(TreeNode root){
-        if(root==null){
-            return ;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-            queue.offer(root);
-            while(!queue.isEmpty()){
-                int size=queue.size();
-                for(int i=0;i<size;i++){
-                    TreeNode node=queue.poll();
-                    if(i==size-1){
-                        lis.add(node.val);
-                    }
-                    if(node.left!=null) queue.offer(node.left);
-                    if(node.right!=null) queue.offer(node.right);
+    private void rightSideViewUtil(TreeNode root, HashMap<Integer,List<Integer>> map, Integer level){
+            if(root!=null){
+                if (!map.containsKey(level)) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.add(root.val);
+                    map.put(level,list);
+                }else{
+                    map.get(level).add(root.val);
                 }
-
-            }
-           return; 
-         }
-
+                
+            rightSideViewUtil(root.right,map,level+1);
+            rightSideViewUtil(root.left,map,level+1);
+        }
     }
-   
+    
+}
