@@ -17,27 +17,20 @@ class Solution {
     public List<Integer> rightSideView(TreeNode root) {
         HashMap<Integer,List<Integer>> al=new HashMap<>();
         ArrayList<Integer> res=new ArrayList<>();
-        rightSideViewUtil(root,al,0);
-        System.out.println(al);
-        al.forEach((key, value) -> {
-            res.add(value.get(0));
-            //System.out.println(res);
-        });
+        rightSideViewUtil(root,res,0);
+        //System.out.println(al);
         return res;
     }
-    private void rightSideViewUtil(TreeNode root, HashMap<Integer,List<Integer>> map, Integer level){
-            if(root!=null){
-                if (!map.containsKey(level)) {
-                    ArrayList<Integer> list = new ArrayList<>();
-                    list.add(root.val);
-                    map.put(level,list);
-                }else{
-                    map.get(level).add(root.val);
+    private void rightSideViewUtil(TreeNode root, List<Integer> al, Integer level){
+            if(root==null){
+                return;
                 }
-                
-            rightSideViewUtil(root.right,map,level+1);
-            rightSideViewUtil(root.left,map,level+1);
+                if(al.size()==level){
+                    al.add(root.val);
+                }
+            rightSideViewUtil(root.right,al,level+1);
+            rightSideViewUtil(root.left,al,level+1);
         }
-    }
+    
     
 }
