@@ -12,8 +12,6 @@ class Solution {
                 nums1[k--]=nums2[j--];
             }
         }
-        for(int ind=0;ind<m+n;ind++){
-            System.out.println(nums1[ind]);
-        }
+        
     }
 }
