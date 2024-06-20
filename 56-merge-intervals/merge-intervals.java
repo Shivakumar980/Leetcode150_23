@@ -23,7 +23,7 @@ class Solution {
                 ans.add(interval);
             }
         }
-        return ans.toArray(new int[ans.size()][]);
+        return ans.toArray(new int[ans.size()][2]);
 
     }
 }
