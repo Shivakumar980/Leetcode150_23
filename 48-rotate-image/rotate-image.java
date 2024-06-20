@@ -17,7 +17,7 @@ class Solution {
                 int temp=matrix[i][j];
                 matrix[i][j]=matrix[i][m-1-j];
                 matrix[i][m-1-j]=temp;
-                System.out.println(matrix[i][j]+" "+i+" "+j);
+                //System.out.println(matrix[i][j]+" "+i+" "+j);
             }
         }
     }
