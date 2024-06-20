@@ -1,35 +1,52 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-       if (intervals.length == 0) {
+        if (intervals.length == 0) {
             return new int[0][0];
         }
 
         // Step 1: Sort the intervals based on the start time
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
 
-        // Step 2: Use a list to collect merged intervals
-        List<int[]> merged = new ArrayList<>();
+        List<int[]> ans = new ArrayList<>();
+        int[] prev_row = intervals[0];
+        ans.add(prev_row);
+        for(int[] interval:intervals){
+            int prevEnd=prev_row[1];
+            int currStart=interval[0];
+            int currEnd=interval[1];
 
-        // Initialize the first interval as the current interval
-        int[] currentInterval = intervals[0];
-        merged.add(currentInterval);
-
-        for (int[] interval : intervals) {
-            int currentEnd = currentInterval[1];
-            int nextStart = interval[0];
-            int nextEnd = interval[1];
-
-            if (currentEnd >= nextStart) {
-                // There is an overlap, so merge the intervals
-                currentInterval[1] = Math.max(currentEnd, nextEnd);
-            } else {
-                // No overlap, update the current interval and add to the list
-                currentInterval = interval;
-                merged.add(currentInterval);
+            if(prevEnd>=currStart){
+                prev_row[1]=Math.max(prevEnd,currEnd);
+            }
+            else{
+                prev_row = interval;
+                ans.add(interval);
             }
         }
+        return ans.toArray(new int[ans.size()][]);
 
-        // Convert the list back to a 2D array
-        return merged.toArray(new int[merged.size()][]);
     }
 }
+        // int prev_first=intervals[0][0];
+        // int prev_second=intervals[0][1];
+        /*
+        for (int i = 1; i < n; i++) {
+            if (intervals[i][0] <= prev_second) {
+                int max = Math.max(prev_second, intervals[i][1]);
+                curr_row[1] = max;
+                
+                 * if(intervals[i][1]>=prev_second){
+                 * ans[index][1]=intervals[i][1];
+                 * }
+                 * else{
+                 * ans[index][1]=prev_second;
+                 * }
+                
+
+            } else {
+                prev_second = intervals[i][0];
+                ans.add(intervals[i]);
+            }
+        }
+         */
+       
