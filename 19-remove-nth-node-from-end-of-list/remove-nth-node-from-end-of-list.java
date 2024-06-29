@@ -26,7 +26,7 @@ class Solution {
             index--;
         }
         ListNode temp_node=temp.next.next;
-        temp.next.next=null;
+       // temp.next.next=null;
         temp.next=temp_node;
         return dummy.next;
     }
