@@ -9,41 +9,46 @@
  * }
  */
 class Solution {
-    private ListNode reverseLinkedList(ListNode head){
-        ListNode curr=head;
-        ListNode prev=null;
-        while(curr!=null){
-            ListNode temp=curr.next;
-            curr.next=prev;
-            prev=curr;
-            curr=temp;  
-        }
-        return prev;
-
-    }
-    public boolean isPalindrome(ListNode head) {
+     public ListNode reverseLinkedList(ListNode head) {
         if (head == null || head.next == null) {
-            // It's a palindrome by definition
+            return head;
+        }
+        ListNode newHead = reverseLinkedList(head.next);
+        ListNode front = head.next;
+
+        front.next = head;
+
+      
+        head.next = null;
+
+
+        return newHead;
+    }
+    
+
+    public boolean isPalindrome(ListNode head) {
+         if (head == null || head.next == null) {
             return true;
         }
-        ListNode slow=head;
-        ListNode fast=head;
-        while(fast!=null && fast.next!=null){
-            slow=slow.next;
-            fast=fast.next.next;
+    
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        System.out.println(slow.val);
-        ListNode newHead=reverseLinkedList(slow);
-        ListNode start=head;
-        ListNode end=newHead;
-        while(start!=slow){
-            System.out.println(end.val);
-            if(start.val!=end.val){
+        ListNode newHead = reverseLinkedList(slow.next);
+        ListNode first = head;
+        ListNode second = newHead;
+        while (second != null) {
+            if (first.val != second.val) {
+                reverseLinkedList(newHead);
                 return false;
             }
-            start=start.next;
-            end=end.next;
+            first = first.next;
+            second = second.next;
         }
+        reverseLinkedList(newHead);
         return true;
     }
-    }
+}
