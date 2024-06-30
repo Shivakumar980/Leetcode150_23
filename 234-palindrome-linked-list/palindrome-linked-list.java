@@ -9,33 +9,41 @@
  * }
  */
 class Solution {
-    public boolean isPalindrome(ListNode head) {
-
-      Stack<Integer> st = new Stack<>();
-        ListNode temp = head;
-        while (temp != null) {
-
-            st.push(temp.val);
-            temp = temp.next;
+    private ListNode reverseLinkedList(ListNode head){
+        ListNode curr=head;
+        ListNode prev=null;
+        while(curr!=null){
+            ListNode temp=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=temp;  
         }
-        temp = head;
-    
-        // Compare values by popping from the stack
-        // and checking against linked list nodes
-        while (temp != null) {
-            if (temp.val != st.peek()) {
-                // If values don't match,
-                // it's not a palindrome
+        return prev;
+
+    }
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            // It's a palindrome by definition
+            return true;
+        }
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        System.out.println(slow.val);
+        ListNode newHead=reverseLinkedList(slow);
+        ListNode start=head;
+        ListNode end=newHead;
+        while(start!=slow){
+            System.out.println(end.val);
+            if(start.val!=end.val){
                 return false;
             }
-    
-            // Pop the value from the stack
-            st.pop();
-    
-      
-            temp = temp.next;
+            start=start.next;
+            end=end.next;
         }
-
         return true;
     }
     }
