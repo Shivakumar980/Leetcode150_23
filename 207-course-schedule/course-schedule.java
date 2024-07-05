@@ -1,34 +1,41 @@
-class Solution {
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
 
-        List<List<Integer>> adj=new ArrayList<>(numCourses);
-        for(int i=0;i<numCourses;i++){
-            adj.add(new ArrayList<>());
-        }
-        int[] preReqRequired=new int[numCourses];
-        for(int i=0;i<prerequisites.length;i++){
-            int preReq=prerequisites[i][1];
-            adj.get(preReq).add(prerequisites[i][0]);
-            preReqRequired[prerequisites[i][0]]++;
-        }
-        Queue<Integer> queue=new LinkedList<>();
-        for(int i=0;i<numCourses;i++){
-            if(preReqRequired[i]==0){
-                queue.add(i);
+class Solution {
+    private boolean detectCycle(int node,ArrayList<ArrayList<Integer>> adj,int[] visited,int[] pathVisited){
+        visited[node]=1;
+        pathVisited[node]=1;
+        for(int neighbour:adj.get(node)){
+            if(visited[neighbour]==0){
+                if(detectCycle(neighbour,adj,visited,pathVisited)){
+                    return true;
+                }
+            }
+            else if(pathVisited[neighbour]==1){
+                return true;
             }
         }
-        List<Integer> topoOrder=new ArrayList<>();
-        while(!queue.isEmpty()){
-            int curr=queue.poll();
-            topoOrder.add(curr);
-            for(int i=0;i<adj.get(curr).size();i++){
-                preReqRequired[adj.get(curr).get(i)]--;
-                if(preReqRequired[adj.get(curr).get(i)]==0){
-                    queue.add(adj.get(curr).get(i));
+        pathVisited[node]=0;
+        return false;
+    }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] visited=new int[numCourses];
+        int[] pathVisited=new int[numCourses];
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<numCourses;i++){
+            adj.add(new ArrayList<Integer>());
+        }
+        for(int[] row:prerequisites){
+            adj.get(row[1]).add(row[0]);
+        }
+        for(int i=0;i<numCourses;i++){
+            if(visited[i]==0){
+                boolean v=detectCycle(i,adj,visited,pathVisited);
+                if(v){
+                    System.out.println(v);
+                    return false;
                 }
             }
         }
-       if(topoOrder.size() == numCourses) return true;
-        return false; 
+        return true;
     }
+ 
 }
