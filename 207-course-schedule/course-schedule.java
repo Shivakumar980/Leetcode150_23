@@ -1,24 +1,9 @@
 
 class Solution {
-    private boolean detectCycle(int node,ArrayList<ArrayList<Integer>> adj,int[] visited,int[] pathVisited){
-        visited[node]=1;
-        pathVisited[node]=1;
-        for(int neighbour:adj.get(node)){
-            if(visited[neighbour]==0){
-                if(detectCycle(neighbour,adj,visited,pathVisited)){
-                    return true;
-                }
-            }
-            else if(pathVisited[neighbour]==1){
-                return true;
-            }
-        }
-        pathVisited[node]=0;
-        return false;
-    }
+   
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        int[] visited=new int[numCourses];
-        int[] pathVisited=new int[numCourses];
+        //int[] visited=new int[numCourses];
+       // int[] pathVisited=new int[numCourses];
         ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
         for(int i=0;i<numCourses;i++){
             adj.add(new ArrayList<Integer>());
@@ -26,16 +11,32 @@ class Solution {
         for(int[] row:prerequisites){
             adj.get(row[1]).add(row[0]);
         }
+        int[] indegree=new int[numCourses];
         for(int i=0;i<numCourses;i++){
-            if(visited[i]==0){
-                boolean v=detectCycle(i,adj,visited,pathVisited);
-                if(v){
-                    System.out.println(v);
-                    return false;
-                }
+            for(int row:adj.get(i)){
+                indegree[row]++;
             }
         }
-        return true;
+        Queue<Integer> q=new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(indegree[i]==0){
+                q.add(i);
+            }
+        }
+        int count=0;
+        while(!q.isEmpty()){
+            int node=q.peek();
+            q.remove();
+            count++;
+            for(int neighbour:adj.get(node)){
+                indegree[neighbour]--;
+                if(indegree[neighbour]==0){
+                    q.add(neighbour);
+                }
+            }
+
+        }
+        return numCourses==count;
     }
  
 }
