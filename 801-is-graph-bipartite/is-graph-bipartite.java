@@ -1,22 +1,17 @@
 class Solution {
 
-    private boolean bfs(int[][] graph, int start, int[] color) {
-        // int V = graph.length;
-        Queue<Integer> q = new LinkedList<Integer>();
-        q.add(start);
-        color[start] = 0;
-        while (!q.isEmpty()) {
-            int node = q.peek();
-            q.remove();
+    private boolean dfs(int[][] graph, int node,int parentColor, int[] color) {
+            color[node]=1-parentColor;
             for (int neighbour : graph[node]) {
                 if (color[neighbour] == -1) {
-                    q.add(neighbour);
-                    color[neighbour] = 1 - color[node];
+                    if(!dfs(graph,neighbour,color[node],color)){
+                        return false;
+                    }
                 } else if (color[node] == color[neighbour]) {
                     return false;
                 }
             }
-        }
+        
         return true;
 
     }
@@ -29,7 +24,7 @@ class Solution {
         }
         for (int i = 0; i < V; i++) {
             if (color[i] == -1) {
-                if (!bfs(graph, i, color)) {
+                if (!dfs(graph, i, 1, color)) {
                     return false;
                 }
             }
