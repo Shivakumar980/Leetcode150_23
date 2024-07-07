@@ -8,7 +8,6 @@ class Node {
         neighbors = new ArrayList<Node>();
     }
     public Node(int _val) {
-
         val = _val;
         neighbors = new ArrayList<Node>();
     }
@@ -20,25 +19,20 @@ class Node {
 */
 
 class Solution {
+    HashMap<Integer,Node> hm=new HashMap<>();
     public Node cloneGraph(Node node) {
-        if(node==null) return node;
-        Node copy=new Node(node.val);
-        Node[] visited=new Node[101];
-        Arrays.fill(visited,null);
-        dfs(node,copy,visited);
-        return copy;
-    }
-    public void dfs(Node node,Node copy,Node[] visited){
-        visited[copy.val]=copy;
-        for(Node n:node.neighbors){
-            if(visited[n.val]==null){
-                Node newNode=new Node(n.val);
-                copy.neighbors.add(newNode);
-                dfs(n,newNode,visited);
-            }
-            else{
-                copy.neighbors.add(visited[n.val]);
+        if(node==null) return null;
+        Node ans=new Node();
+        ans.val=node.val;
+        hm.put(node.val,ans);
+        for(int i=0;i<node.neighbors.size();i++){
+            if(!hm.containsKey(node.neighbors.get(i).val)){
+                cloneGraph(node.neighbors.get(i));
             }
         }
+        for(int i=0;i<node.neighbors.size();i++){
+            ans.neighbors.add(hm.get(node.neighbors.get(i).val));
+        }
+        return ans;
     }
 }
