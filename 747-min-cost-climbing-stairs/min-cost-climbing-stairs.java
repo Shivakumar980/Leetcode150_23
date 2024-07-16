@@ -1,26 +1,23 @@
 class Solution {
-
-    public int minCostHelper(int[] cost,int ind,int[] dp){
-        if(ind==0 || ind==1){
-            return cost[ind];
-        }
-        if(dp[ind]!=-1){
-            return dp[ind];
-        }
-       
-        int one=cost[ind]+minCostHelper(cost,ind-1,dp);
-        int two=Integer.MAX_VALUE;
-        if(ind>1){
-             two=cost[ind]+minCostHelper(cost,ind-2,dp);
-        }
-       
-        return dp[ind]=Math.min(one,two);
-    }
-    
     public int minCostClimbingStairs(int[] cost) {
-        int n=cost.length;
-        int[] dp=new int[n+1];
-        Arrays.fill(dp,-1);
-        return Math.min(minCostHelper(cost,n-1,dp),minCostHelper(cost,n-2,dp));
+        int n = cost.length;
+        if (n == 0) return 0;
+        if (n == 1) return cost[0];
+
+        int[] dp = new int[n + 1]; // dp[i] is the minimum cost to reach step i
+        dp[0] = 0; // Starting step
+        dp[1] = 0; // Starting step
+
+        for (int i = 2; i <= n; i++) {
+            dp[i] = Math.min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
+        }
+
+        return dp[n]; // Minimum cost to reach the top
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] cost = {10, 15, 20};
+        System.out.println(solution.minCostClimbingStairs(cost)); // Output: 15
     }
 }
