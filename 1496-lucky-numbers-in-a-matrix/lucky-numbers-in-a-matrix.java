@@ -25,7 +25,7 @@ class Solution {
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 if(rowa[i]==cola[j]){
-                    al.add(rowa[i]);
+                    al.add(matrix[i][j]);
                 }
             }
         }
