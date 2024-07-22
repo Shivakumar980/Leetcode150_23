@@ -14,23 +14,21 @@
  * }
  */
 class Solution {
-    public List<Integer> rightSideView(TreeNode root) {
-        HashMap<Integer,List<Integer>> al=new HashMap<>();
-        ArrayList<Integer> res=new ArrayList<>();
-        rightSideViewUtil(root,res,0);
-        //System.out.println(al);
-        return res;
-    }
-    private void rightSideViewUtil(TreeNode root, List<Integer> al, Integer level){
-            if(root==null){
-                return;
-                }
-                if(al.size()==level){
-                    al.add(root.val);
-                }
-            rightSideViewUtil(root.right,al,level+1);
-            rightSideViewUtil(root.left,al,level+1);
+    private void rightSideViewUtil(TreeNode root,int level,List<Integer> ans){
+        if(root==null){
+            return;
         }
-    
-    
+        if(ans.size()==level){
+            ans.add(root.val);
+        }
+        rightSideViewUtil(root.right,level+1,ans);
+        rightSideViewUtil(root.left,level+1,ans);
+        return;
+    }
+
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> ans=new ArrayList<>();
+        rightSideViewUtil(root,0,ans);
+        return ans;
+    }
 }
