@@ -31,11 +31,12 @@ class Solution {
         while(!q.isEmpty()){
             int sz=q.size();
             int count=0;
+            int min=q.peek().ind;
             int first=0,last=0;
             int currsize=sz;
             while(currsize>0){
                 count++;
-                int ind=q.peek().ind;
+                int ind=q.peek().ind-min;
                 TreeNode node=q.peek().node;
                 q.remove();
                 if(count==1){
