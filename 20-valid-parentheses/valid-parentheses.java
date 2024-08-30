@@ -1,26 +1,23 @@
 class Solution {
-    public boolean isValid(String s) {
-
-        HashMap<Character,Character> hm=new HashMap<>();
-        hm.put('(',')');
-        hm.put('{','}');
-        hm.put('[',']');
-        Stack<Character> st=new Stack();
-        for(int i=0;i<s.length();i++){
-            char c=s.charAt(i);
-            if(hm.containsKey(c)){
-                st.push(c);
-            }
-            else{
-                if(st.isEmpty()) return false;
-                char open=st.pop();
-
-                if(hm.get(open)!=c){
-                    return false;
-                }
+    public static boolean isValid(String s) {
+        boolean flag=false;
+        Stack<Character> st=new Stack<Character>();
+       for(int i=0;i<s.length();i++){
+        char c=s.charAt(i);
+        if(c=='('){
+            st.push(')');
+        }
+        else if(c=='{'){
+            st.push('}');
+        }
+        else if(c=='['){
+            st.push(']');
+        }
+        else if( st.isEmpty() || st.pop()!=c){
+                 return false;
             }
         }
-        if(!st.isEmpty()) return false;
-        return true;
+        return st.isEmpty();
+       }
+       
     }
-}
