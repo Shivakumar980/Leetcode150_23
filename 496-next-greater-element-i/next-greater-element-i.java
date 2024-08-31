@@ -9,12 +9,13 @@ class Solution {
             }
             st.push(n2);
         }
-        while(!st.isEmpty()){
+        /*while(!st.isEmpty()){
             hm.put(st.pop(),-1);
         }
+        */
         int index=0;
         for(int n1:nums1){
-            res[index++]=hm.get(n1);
+            res[index++]=hm.getOrDefault(n1,-1);
         }
         return res;
     }
