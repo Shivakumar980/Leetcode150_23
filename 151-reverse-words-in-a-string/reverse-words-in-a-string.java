@@ -1,23 +1,37 @@
 class Solution {
     public String reverseWords(String s) {
-        String[] parts = s.trim().split("\\s+");
-        StringBuilder sb=new StringBuilder();
-        int n=parts.length;
-        for(int i=0;i<n/2;i++){
-            String temp=parts[i];
-            parts[i]=parts[n-1-i];
-            parts[n-1-i]=temp;
+        ArrayList<String> sl = new ArrayList<>();
+        int front = s.length() - 1; 
+        int rear = s.length() - 1;
+
+        // Traverse the string from the end
+        while (front >= 0) {
+            char f = s.charAt(front);
+            char r = s.charAt(rear);
+            
+            // Skip spaces at the end or between words
+            if (f == ' ' && r == ' ') {
+                front--;
+                rear--;
+            }
+            // If we encounter a space and we are at the end of a word
+            else if (f == ' ' && r != ' ') {
+                // Add the word between front+1 and rear
+                sl.add(s.substring(front + 1, rear + 1));
+                rear = front; // Move rear to current front position
+            }
+            // If still part of a word
+            else {
+                front--;
+            }
         }
-       for(int i=0;i<n;i++){
-        if(parts[i]!=""){
-            sb.append(parts[i]);
+
+        // Add the last word if there is any (corner case when first word has no leading space)
+        if (rear >= 0 && s.charAt(rear) != ' ') {
+            sl.add(s.substring(0, rear + 1));
         }
-        
-        if(i<n-1){
-            sb.append(" ");
-        }
-       
+
+        // Join the words in reverse order to form the result
+        return String.join(" ", sl);
     }
-     return sb.toString();
-}
-}
+    }
