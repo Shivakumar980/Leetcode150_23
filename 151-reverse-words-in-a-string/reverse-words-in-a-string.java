@@ -3,7 +3,7 @@ class Solution {
         ArrayList<String> sl=new ArrayList<>();
         int front=s.length()-1; 
         int rear=s.length()-1;
-        while(front >=0){
+        while(front >=0 && rear>=0){
             char f=s.charAt(front);
             char r=s.charAt(rear);
             System.out.println(f+" "+r);
