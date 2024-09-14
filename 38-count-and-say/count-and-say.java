@@ -3,11 +3,11 @@ class Solution {
         int count=1;
         StringBuilder sb=new StringBuilder();
         for(int i=1;i<s.length();i++){
-            System.out.println("hi");
+            
             
             if(s.charAt(i)==s.charAt(i-1)){
                 count++;
-                System.out.println(count);
+                
             }
             
             else{
