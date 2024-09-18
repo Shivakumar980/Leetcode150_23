@@ -14,13 +14,17 @@
  * }
  */
 class Solution {
-    List<Integer> al=new ArrayList<>();
-    public List<Integer> inorderTraversal(TreeNode root) {
-        if(root!=null){
-        inorderTraversal(root.left);
-        al.add(root.val);
-        inorderTraversal(root.right);
+    private void inorder(TreeNode root,List<Integer> inorder){
+        if(root==null){
+            return;
         }
-        return al;
+        inorder(root.left,inorder);
+        inorder.add(root.val);
+        inorder(root.right,inorder);
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> inorder=new ArrayList<>();
+        inorder(root,inorder);
+        return inorder;
     }
 }
