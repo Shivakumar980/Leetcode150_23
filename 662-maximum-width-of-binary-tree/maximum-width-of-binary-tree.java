@@ -13,52 +13,50 @@
  *     }
  * }
  */
-class Pair{
+ class Pair{
+    int hd;
     TreeNode node;
-    int ind;
-    public Pair(TreeNode node,int ind){
+    public Pair(int hd, TreeNode node){
+        this.hd=hd;
         this.node=node;
-        this.ind=ind;
     }
-}
+
+ }
 class Solution {
-    
+
     public int widthOfBinaryTree(TreeNode root) {
         if(root==null) return 0;
         Queue<Pair> q=new LinkedList<>();
-        q.add(new Pair(root,0));
-        int max=0;
+        q.add(new Pair(0,root));
+        int result=1;
         while(!q.isEmpty()){
-            int sz=q.size();
+            int n=q.size();
+            int currsize=n;
             int count=0;
-            int min=q.peek().ind;
-            int first=0,last=0;
-            int currsize=sz;
+            int first=0;
+            int last=0;
             while(currsize>0){
                 count++;
-                int ind=q.peek().ind-min;
+                int hd=q.peek().hd;
                 TreeNode node=q.peek().node;
                 q.remove();
                 if(count==1){
-                     first=ind;
+                    first=hd;
                 }
-                if(count==sz){
-                     last=ind;
-                   //  System.out.println(last);
-                }
-                 
-                if(node.left!=null){
-                    q.add(new Pair(node.left,2*ind+1));
-                }
-                if(node.right!=null){
-                    q.add(new Pair(node.right,2*ind+2));
+                if(count==n){
+                    last=hd;
                 }
                 
+                if(node.left!=null){
+                    q.add(new Pair(2*hd+1,node.left));
+                }
+                if(node.right!=null){
+                    q.add(new Pair(2*hd+2,node.right));
+                }
                 currsize--;
             }
-            max=Math.max(max,last-first+1);
-            //System.out.println(max+"first"+first+"last"+last);
+            result=Math.max(result,last-first+1);
         }
-        return max;
+        return result;
     }
 }
