@@ -14,42 +14,36 @@
  * }
  */
 class Solution {
-    List<List<Integer>> lis=new ArrayList();
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        if(root==null){
-            return lis;
-        }
-        helper(root);
-        return lis;
-    }
-    private void helper(TreeNode root){
+        
+        List<List<Integer>> result=new ArrayList<>();
+        if(root==null) return result;
         Queue<TreeNode> q=new LinkedList<>();
-        q.offer(root);
-        boolean flag=true;
+        q.add(root);
+        int count=0;
         while(!q.isEmpty()){
             int size=q.size();
-            List<Integer> templist=new ArrayList<>();
-                for(int i=0;i<size;i++){
-                    TreeNode node=q.poll();
-                    templist.add(node.val);
-                    if(node.left!=null) q.offer(node.left);
-                    if(node.right!=null) q.offer(node.right);
-
+            int currsize=size;
+            count++;
+            List<Integer> al=new ArrayList<>();
+            while(currsize>0){
+                int val=q.peek().val;
+                TreeNode node=q.peek();
+                al.add(val);
+                q.remove();
+                if(node.left!=null){
+                    q.add(node.left);
+                }
+                if(node.right!=null){
+                    q.add(node.right);
+                }
+                currsize--;
             }
-            if(flag){
-                lis.add(templist);
-            } 
-            else{ 
-                List<Integer> revArrayList=new ArrayList<>();
-                for (int i = templist.size() - 1; i >= 0; i--) {         
-                revArrayList.add(templist.get(i));}
-                lis.add(revArrayList);
+            if(count%2==0){
+                Collections.reverse(al);
+            }
+            result.add(al);
         }
-        flag=!flag;
-            }
-            }
-        }
-    
-
-
-
+        return result;
+    }
+}
