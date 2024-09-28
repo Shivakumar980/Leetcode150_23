@@ -19,8 +19,8 @@ class Solution {
         if(root==null){
             return 0;
         }
-        int leftsum=Math.max(0,pathsum(root.left));
-        int rightsum=Math.max(0,pathsum(root.right));
+        int leftsum=Math.max(pathsum(root.left),0);
+        int rightsum=Math.max(pathsum(root.right),0);
         sum=Math.max(sum,leftsum+rightsum+root.val);
        
         return Math.max(leftsum,rightsum)+root.val;
