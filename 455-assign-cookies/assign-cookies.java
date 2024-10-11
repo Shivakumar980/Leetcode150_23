@@ -13,11 +13,11 @@ class Solution {
             if(g[gindex]<=s[sindex]){
                 count++;
                 gindex++;
-                sindex++;
+                
             }
-            else{
+           
                 sindex++;
-            }
+            
         }
         return count;
 
