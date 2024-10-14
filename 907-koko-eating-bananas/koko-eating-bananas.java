@@ -8,7 +8,7 @@ class Solution {
     }
     public int minEatingSpeed(int[] piles, int h) {
         int n=piles.length;
-       // if(n==1) return (int)Math.ceil((double)piles[0]/h);
+        if(n==1) return (int)Math.ceil((double)piles[0]/h);
         int maxpile=Integer.MIN_VALUE;
         for(int i=0;i<n;i++){
             maxpile=Math.max(maxpile,piles[i]);
