@@ -1,13 +1,9 @@
 class Solution {
-    private void swap(int[] nums,int i, int j){
-        int temp=nums[i];
-        nums[i]=nums[j];
-        nums[j]=temp;
-    }
-    private void reverse(int[] nums,int start){
-        int end= nums.length-1;
+    public void reverse(int[] arr,int start,int end){    
         while(start<end){
-            swap(nums,start,end);
+            int temp=arr[start];
+            arr[start]=arr[end];
+            arr[end]=temp;
             start++;
             end--;
         }
@@ -15,25 +11,29 @@ class Solution {
     public void nextPermutation(int[] nums) {
         int index=-1;
         int n=nums.length;
+        //step 1: find the index smaller than right
         for(int i=n-2;i>=0;i--){
             if(nums[i]<nums[i+1]){
                 index=i;
                 break;
             }
         }
-        if(index==-1) {
-            reverse(nums,0);}
-        else{
-            for(int i=n-1;i>index;i--){
+        if(index==-1){
+            reverse(nums,0,n-1);
+            return;
+        }
+        // find the next greater
+        //swap
+        for(int i=n-1;i>index;i--){
             if(nums[i]>nums[index]){
-                 swap(nums,i,index);
-                 break;
+                int temp=nums[i];
+                nums[i]=nums[index];
+                nums[index]=temp;
+                break;
             }
         }
-        reverse(nums,index+1);
-        }
-        
-       
-        
+        //reverse
+        reverse(nums,index+1,n-1);
+
     }
 }
