@@ -1,52 +1,25 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        if (intervals.length == 0) {
-            return new int[0][0];
-        }
+        int n=intervals.length;
+        List<List<Integer>> ans=new ArrayList<>();
+        Arrays.sort(intervals,(a,b)->a[0]!=b[0] ? a[0]-b[0] : a[1]-b[1]);
 
-        // Step 1: Sort the intervals based on the start time
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
-
-        List<int[]> ans = new ArrayList<>();
-        int[] prev_row = intervals[0];
-        ans.add(prev_row);
-        for(int[] interval:intervals){
-            int prevEnd=prev_row[1];
-            int currStart=interval[0];
-            int currEnd=interval[1];
-
-            if(prevEnd>=currStart){
-                prev_row[1]=Math.max(prevEnd,currEnd);
+        for(int i=0;i<n;i++ ){
+            if(ans.size()==0 || ans.get(ans.size()-1).get(1)< intervals[i][0]){
+                ans.add(Arrays.asList(intervals[i][0],intervals[i][1]));
             }
             else{
-                prev_row = interval;
-                ans.add(interval);
+                ans.get(ans.size()-1).set(1,Math.max(ans.get(ans.size()-1).get(1),intervals[i][1]));
             }
+
         }
-        return ans.toArray(new int[ans.size()][2]);
+        int[][] result = new int[ans.size()][2];
+        for (int i = 0; i < ans.size(); i++) {
+            result[i][0] = ans.get(i).get(0);
+            result[i][1] = ans.get(i).get(1);
+        }
+
+        return result;
 
     }
 }
-        // int prev_first=intervals[0][0];
-        // int prev_second=intervals[0][1];
-        /*
-        for (int i = 1; i < n; i++) {
-            if (intervals[i][0] <= prev_second) {
-                int max = Math.max(prev_second, intervals[i][1]);
-                curr_row[1] = max;
-                
-                 * if(intervals[i][1]>=prev_second){
-                 * ans[index][1]=intervals[i][1];
-                 * }
-                 * else{
-                 * ans[index][1]=prev_second;
-                 * }
-                
-
-            } else {
-                prev_second = intervals[i][0];
-                ans.add(intervals[i]);
-            }
-        }
-         */
-       
