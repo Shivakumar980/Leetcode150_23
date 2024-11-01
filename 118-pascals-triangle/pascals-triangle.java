@@ -1,19 +1,20 @@
 class Solution {
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> ans=new ArrayList<>();
-        List<Integer> row=new ArrayList<>();
-        row.add(1);
-        ans.add(row);
-        for(int i=1;i<numRows;i++){
-             List<Integer> curr=new ArrayList<>();
-             List<Integer> prev=ans.get(i-1);
-             curr.add(1);
-             for(int j=1;j<i;j++){
-                curr.add(prev.get(j)+prev.get(j-1));
-             }
-             curr.add(1);
-             ans.add(curr);
+
+        List<Integer> innerList=new ArrayList<>();
+        innerList.add(1);
+        List<List<Integer>> outerList=new ArrayList<>();
+        outerList.add(innerList);
+       for(int i=1;i<numRows;i++){
+            List<Integer> currList=new ArrayList<>();
+            List<Integer> prevList=outerList.get(i-1);
+            currList.add(1);
+            for(int j=1;j<i;j++){
+                currList.add(prevList.get(j-1)+prevList.get(j));
+            }
+            currList.add(1);
+            outerList.add(currList);
         }
-        return ans;
+        return outerList;
     }
 }
