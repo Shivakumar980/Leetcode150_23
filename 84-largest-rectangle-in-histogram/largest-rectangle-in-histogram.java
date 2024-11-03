@@ -1,35 +1,24 @@
-class Pair{
-    int key;
-    int val;
-    public Pair(int key,int val){
-        this.key=key;
-        this.val=val;
-    }
-}
 class Solution {
     public int largestRectangleArea(int[] heights) {
-        int MaxArea=0;
         int n=heights.length;
-        int start;
-        Stack<Pair> st=new Stack<>();
+        Stack<Integer> st=new Stack<>();
+        int maxArea=0;
+        
         for(int i=0;i<n;i++){
-            int currHt=heights[i];
-            start=i;
-            while(!st.isEmpty() && st.peek().val>currHt){
-                Pair pair=st.pop();
-                int index=pair.key;
-                int ht=pair.val;
-                MaxArea=Math.max(MaxArea,ht*(i-index));
-                start=index;
+            while(!st.isEmpty() && heights[st.peek()]> heights[i]){
+                int element=heights[st.pop()];
+                int pse=st.isEmpty()? -1 :st.peek();
+                maxArea=Math.max(maxArea ,element*(i-pse-1));
+                System.out.println(maxArea + " "+ element);
             }
-            st.push(new Pair(start,currHt));
+            st.push(i);
         }
         while(!st.isEmpty()){
-            Pair pair=st.pop();
-            int index=pair.key;
-            int ht=pair.val;
-            MaxArea=Math.max(MaxArea, ht*(n-index));
+            int nse=n;
+            int element=heights[st.pop()];
+            int pse=st.isEmpty()? -1 :st.peek();
+            maxArea=Math.max(maxArea ,element*(nse-pse-1));
         }
-        return MaxArea;
+        return maxArea;
     }
 }
