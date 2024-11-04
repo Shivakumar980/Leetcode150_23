@@ -13,9 +13,7 @@ class Solution {
             maxf=Math.max(maxf,freqMap[c]);
             while ((right-left+1)-maxf>k && left<right){
                 freqMap[s.charAt(left) - 'A']--;
-                for(int i=0;i<26;i++){
-                    maxf=Math.max(maxf,freqMap[i]);
-                }
+                
                 left++;
             }
             if((right-left+1)-maxf<=k){
