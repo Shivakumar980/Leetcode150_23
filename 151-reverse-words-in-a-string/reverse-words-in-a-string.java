@@ -21,7 +21,7 @@ class Solution {
             }
             
         }
-       if (rear >= 0 && s.charAt(rear) != ' ') {
+       if (rear >= 0 ) {
             sl.add(s.substring(0, rear + 1));
         }
         return String.join(" ", sl);
