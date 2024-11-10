@@ -4,24 +4,21 @@ class Solution {
         int left=0;
         int right=0;
         int maxlen=0;
+
         int[] freqMap=new int[26];
         int maxf=0;
-
         while(right<n){
-            int c=s.charAt(right)-'A';
-            freqMap[c]++;
-            maxf=Math.max(maxf,freqMap[c]);
-            while ((right-left+1)-maxf>k && left<right){
-                freqMap[s.charAt(left) - 'A']--;
-                
+            int index=s.charAt(right)-'A';
+            freqMap[index]++;
+            maxf= Math.max(freqMap[index],maxf);
+            while((right-left+1)-maxf > k){
+                freqMap[s.charAt(left)-'A']--;
                 left++;
             }
-            if((right-left+1)-maxf<=k){
-                maxlen=Math.max(maxlen,right-left+1);
-            }
+            maxlen=Math.max(right-left+1 , maxlen);
             right++;
         }
-
         return maxlen;
+        
     }
 }
