@@ -1,48 +1,45 @@
 class Solution {
-    private int n;
-    private int m;
+    int[] delrow = { 0, 1, -1, 0 };
+    int[] delcol = { 1, 0, 0, -1 };
     public void solve(char[][] board) {
-        m=board[0].length;
-        n=board.length;
+        int n=board.length;
+        int m=board[0].length;
+
+        int[][] visited=new int[n][m];
+
         for(int i=0;i<n;i++){
-            if(board[i][0]=='O'){
-                DFSMarking(board,i,0);
-            }   
-            if(board[i][m-1]=='O'){
-                DFSMarking(board,i,m-1);
-            }   
-        }
-        for(int j=1;j<m-1;j++){
-            if(board[0][j]=='O'){
-                DFSMarking(board,0,j);
-            }      
-            if(board[n-1][j]=='O'){
-                DFSMarking(board,n-1,j);
-            }      
+            for(int j=0;j<m ;j++){
+                if( 
+                    visited[i][j]==0 && board[i][j]=='O' &&
+                 ((i==0 && j<m)|| (i==n-1 && j<m) || (j==0 && i<n) || (j==m-1 && i<n))
+                 ){
+                    dfs(i,j,visited,board);
+                }
+            }
         }
 
         for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(board[i][j]=='O'){
-                   board[i][j]='X'; 
-                }
-                if(board[i][j]=='#'){
-                   board[i][j]='O'; 
+            for(int j=0;j<m ;j++){
+                if( visited[i][j]==0){
+                    board[i][j]='X';
                 }
             }
         }
         
     }
 
-    private void DFSMarking(char[][] board,int rows,int columns){
-        if(rows<0 || columns<0 || rows>=board.length || columns>=board[0].length || board[rows][columns]!='O'){
-            return;
-        }
-        board[rows][columns]='#';
-        DFSMarking( board, rows+1,columns );
-        DFSMarking( board, rows-1,columns );
-        DFSMarking( board, rows,columns+1 );
-        DFSMarking( board, rows,columns-1 );
+    private void dfs(int row,int col, int[][] visited,char[][] board){
+        int n=board.length;
+        int m=board[0].length;
+            visited[row][col]=1;
 
+            for(int i=0;i<4;i++){
+                int nrow= row +delrow[i];
+                int ncol= col+ delcol[i];
+
+                if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && visited[nrow][ncol]==0 && board[nrow][ncol]=='O' ){
+                    dfs(nrow,ncol,visited,board);
+                }
+            }
     }
 }
