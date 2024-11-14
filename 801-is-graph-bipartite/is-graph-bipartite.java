@@ -1,34 +1,38 @@
 class Solution {
-
-    private boolean dfs(int[][] graph, int node,int parentColor, int[] color) {
-            color[node]=1-parentColor;
-            for (int neighbour : graph[node]) {
-                if (color[neighbour] == -1) {
-                    if(!dfs(graph,neighbour,color[node],color)){
-                        return false;
-                    }
-                } else if (color[node] == color[neighbour]) {
-                    return false;
-                }
-            }
-        
-        return true;
-
-    }
-
+    int[] color;
     public boolean isBipartite(int[][] graph) {
-        int V = graph.length;
-        int[] color = new int[V];
-        for (int i = 0; i < V; i++) {
-            color[i] = -1;
-        }
-        for (int i = 0; i < V; i++) {
-            if (color[i] == -1) {
-                if (!dfs(graph, i, 1, color)) {
+        int n=graph.length;
+        //int m=graph[0].length;
+        color=new int[n];
+        Arrays.fill(color,-1);
+    
+        for(int i=0;i<n;i++){
+            if(color[i]==-1){
+                if(dfs(i,1,graph)==false){
                     return false;
                 }
             }
+           
         }
         return true;
+    }
+    private boolean dfs(int node, int parentColor,int[][] graph){
+
+            color[node]=1-parentColor;
+    
+            
+            for(int element:graph[node]){
+                if(color[element]!=-1 && color[element]==color[node]){
+                    return false;
+                }
+                else if(color[element]==-1 ){
+                     if(dfs(element,color[node],graph)==false){
+                        return false;
+                     }
+                }  
+            }
+
+            return true;
+
     }
 }
