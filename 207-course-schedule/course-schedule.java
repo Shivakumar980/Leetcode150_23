@@ -1,42 +1,41 @@
-
 class Solution {
-   
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        //int[] visited=new int[numCourses];
-       // int[] pathVisited=new int[numCourses];
+
+        int n=prerequisites.length;
         ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
         for(int i=0;i<numCourses;i++){
-            adj.add(new ArrayList<Integer>());
+            adj.add(new ArrayList<>());
         }
-        for(int[] row:prerequisites){
-            adj.get(row[1]).add(row[0]);
+        for(int[] edge:prerequisites){
+            adj.get(edge[0]).add(edge[1]);
         }
-        int[] indegree=new int[numCourses];
-        for(int i=0;i<numCourses;i++){
-            for(int row:adj.get(i)){
-                indegree[row]++;
-            }
-        }
+        int[] indegree= new int[numCourses];
+
         Queue<Integer> q=new LinkedList<>();
+
+        for(int i=0;i<numCourses;i++){
+            for(int element:adj.get(i)){
+                indegree[element]++;
+            }
+        } 
         for(int i=0;i<numCourses;i++){
             if(indegree[i]==0){
                 q.add(i);
             }
-        }
+        } 
         int count=0;
         while(!q.isEmpty()){
             int node=q.peek();
             q.remove();
             count++;
-            for(int neighbour:adj.get(node)){
-                indegree[neighbour]--;
-                if(indegree[neighbour]==0){
-                    q.add(neighbour);
+            for(int element:adj.get(node)){
+                indegree[element]--;
+                if(indegree[element]==0){
+                    q.add(element);
                 }
             }
-
         }
-        return numCourses==count;
+
+       return count==numCourses;
     }
- 
 }
