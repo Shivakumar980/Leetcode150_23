@@ -47,6 +47,7 @@ class Solution {
                         if(nrow>=0 &&nrow<n && ncol>=0 && ncol <n && grid[nrow][ncol]==0 ){
                                 if(dist[row][col]+1<dist[nrow][ncol]){
                                     dist[nrow][ncol]=1+dist[row][col];
+                                    if(nrow==n && ncol==n) return dist[nrow][ncol];
                                     q.add(new Pair(nrow,ncol));
                                 }
                               
