@@ -29,6 +29,8 @@ class Solution {
             int col=pq.peek().second;
             int effort=pq.peek().effort;
             pq.remove();
+
+            if(row == n-1 && col == m-1) return effort; 
             for(int i=0;i<4;i++){
                 int nrow=row+delrow[i];
                 int ncol=col+delcol[i];
