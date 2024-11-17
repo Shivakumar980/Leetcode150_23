@@ -19,7 +19,8 @@ class Solution {
             adj.get(times[i][0]).add(new Pair(times[i][1],times[i][2]));
         }
 
-        Queue<Pair> q=new LinkedList<>();
+        //Queue<Pair> q=new LinkedList<>();
+        PriorityQueue<Pair> q = new PriorityQueue<>((a, b) -> a.weight - b.weight);
         int[] distance=new int[n+1];
         Arrays.fill(distance,(int)1e9);
         distance[k]=0;
