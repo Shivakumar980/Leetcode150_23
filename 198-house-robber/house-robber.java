@@ -4,7 +4,9 @@ class Solution {
 
 
         if(index<0) return 0;
-        if(index==0) return nums[0];
+
+       
+        //if(index==0 || index==1) return nums[index];
 
         if(dp[index]!=-1){
             return dp[index];
@@ -19,8 +21,9 @@ class Solution {
     }
 
     public int rob(int[] nums) {
-
+        
         int n=nums.length;
+        //if(n==2) return Math.max(nums[0],nums[1]);
         int[] dp=new int[n];
         Arrays.fill(dp,-1);
 
