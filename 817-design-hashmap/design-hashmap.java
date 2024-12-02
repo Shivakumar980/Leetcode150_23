@@ -2,74 +2,71 @@ class ListNode{
     int key;
     int val;
     ListNode next;
-    public ListNode(int key,int val,ListNode next){
+
+    public ListNode(int key, int val, ListNode next){
         this.key=key;
         this.val=val;
         this.next=next;
     }
 }
-    
-    class MyHashMap {
+class MyHashMap {
 
-        private static final int SIZE=1000;
-        private ListNode[] map;
+    private static final int SIZE=1000;
+    ListNode[] buckets;
 
     public MyHashMap() {
-        map = new ListNode[SIZE];
+        buckets = new ListNode[SIZE];
     }
 
     private int hash(int key){
-        return key % SIZE ;
+        return key % SIZE;
     }
     
-    public void put(int key, int value) {
-        
-        int index = hash(key);
-        if(map[index] == null){
-            map[index]=new ListNode(-1,-1,null);
+    private ListNode findPrevNode(ListNode head, int key){
+        ListNode node= head;
+        while(node.next!=null && node.next.key!=key){
+            node=node.next;
         }
-        ListNode prev= findPrevNode(map[index] ,key);
-
+        return node;
+    }
+    public void put(int key, int value) {
+        int index = hash(key);
+        if(buckets[index]==null){
+            buckets[index]=new ListNode(-1,-1,null);
+        }
+        ListNode  prev=findPrevNode(buckets[index],key);
         if(prev.next==null){
             prev.next=new ListNode(key,value,null);
-        }else{
+        }
+        else{
             prev.next.val=value;
         }
     }
     
     public int get(int key) {
-        int index= hash(key);
-        if(map[index]==null){
+        int index =hash(key);
+
+        if(buckets[index]==null){
             return -1;
         }
-        ListNode prev=findPrevNode(map[index],key);
+        ListNode prev= findPrevNode(buckets[index],key);
         if(prev.next==null){
             return -1;
         }
-        return prev.next.val;
+        return prev.next.val; 
     }
     
     public void remove(int key) {
         int index=hash(key);
-        if(map[index]==null){
+        if(buckets[index]==null){
             return;
         }
-        ListNode prev=findPrevNode(map[index],key);
+        ListNode prev= findPrevNode(buckets[index],key);
         if(prev.next!=null){
             prev.next=prev.next.next;
-        }   
-    }
-
-    private ListNode findPrevNode(ListNode head,int key){
-        ListNode node=head;
-
-        while(node.next!=null && node.next.key!=key){
-            node=node.next;
         }
-
-        return node;
+        
     }
-
 }
 
 /**
