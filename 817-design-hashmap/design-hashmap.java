@@ -12,6 +12,8 @@ class ListNode{
 class MyHashMap {
 
     private static final int SIZE=1000;
+    private static final float LOAD_FACTOR = 0.75f;
+    int size=0;
     ListNode[] buckets;
 
     public MyHashMap() {
@@ -19,7 +21,7 @@ class MyHashMap {
     }
 
     private int hash(int key){
-        return key % SIZE;
+        return key % buckets.length;
     }
     
     private ListNode findPrevNode(ListNode head, int key){
@@ -37,10 +39,14 @@ class MyHashMap {
         ListNode  prev=findPrevNode(buckets[index],key);
         if(prev.next==null){
             prev.next=new ListNode(key,value,null);
+            size++;
         }
         else{
             prev.next.val=value;
         }
+       // if((float)size/buckets.length >LOAD_FACTOR){
+       //     resize();
+       // }
     }
     
     public int get(int key) {
@@ -64,8 +70,24 @@ class MyHashMap {
         ListNode prev= findPrevNode(buckets[index],key);
         if(prev.next!=null){
             prev.next=prev.next.next;
+            size--;
         }
         
+    }
+    private void resize() {
+        ListNode[] oldBuckets = buckets;
+        buckets = new ListNode[oldBuckets.length * 2];
+        size = 0; // Reset size and re-add elements
+
+        for (ListNode head : oldBuckets) {
+            if (head != null) {
+                ListNode node = head.next; // Skip the dummy head
+                while (node != null) {
+                    put(node.key, node.val); // Rehash and insert into the new buckets
+                    node = node.next;
+                }
+            }
+        }
     }
 }
 
