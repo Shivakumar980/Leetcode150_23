@@ -1,9 +1,9 @@
 class Solution {
     public int minDistance(String word1, String word2) {
         
-        int a= word1.length()- longestCommonSubsequence(word1, word2);
-        int b = word2.length()-longestCommonSubsequence(word1, word2);
-        return a+b;
+        int a= word1.length();
+        int b = word2.length();
+        return (a+b)- 2*longestCommonSubsequence(word1, word2);
     }
 
      public int longestCommonSubsequence(String text1, String text2) {
