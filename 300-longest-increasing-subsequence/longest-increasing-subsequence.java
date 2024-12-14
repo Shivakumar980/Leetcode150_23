@@ -1,5 +1,5 @@
 class Solution {
-     private int lowerBound(ArrayList<Integer> arr, int k){
+     private int upperBound(ArrayList<Integer> arr, int k){
         int low=0;
         int high=arr.size();
 
@@ -31,7 +31,7 @@ class Solution {
                     System.out.println(al);
                 }
                 else{
-                    int idx= lowerBound(al, nums[i]);
+                    int idx= upperBound(al, nums[i]);
                     al.set(idx, nums[i]);
                     
                 }
