@@ -14,9 +14,7 @@ class Solution {
                 maxval=Math.max(maxval, dist[ind]);
             }
         }
-        for(int num: dist){
-            System.out.println(num);
-        }
+       
         return maxval;
     }
 }
