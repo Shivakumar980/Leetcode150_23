@@ -1,7 +1,7 @@
 class Solution {
      private int upperBound(ArrayList<Integer> arr, int k){
         int low=0;
-        int high=arr.size();
+        int high=arr.size()-1;
 
         while(low<=high){
             int mid= low+ (high-low)/2;
