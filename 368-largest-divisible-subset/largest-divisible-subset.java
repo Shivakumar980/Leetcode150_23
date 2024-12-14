@@ -26,12 +26,12 @@ class Solution {
             index=ind;
         }
     }
-    ans.add(nums[index]);
+
     while(hash[index]!=index){
-       
+        ans.add(nums[index]);
         index=hash[index];
-         ans.add(nums[index]);
     }
+    ans.add(nums[index]);
     Collections.reverse(ans);
     return ans;
     }
