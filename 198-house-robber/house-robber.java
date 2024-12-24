@@ -1,25 +1,20 @@
 class Solution {
 
-    private int robUtil(int[] nums,int ind,int[] dp){
-        if(ind<0) return 0;
-        if(ind==0) return nums[0];
-
-        if(dp[ind]!=-1){
-            return dp[ind];
-        }
-        int not_take= robUtil(nums,ind-1,dp);
-        int  take= nums[ind]+ robUtil(nums, ind-2,dp);
-
-        
-        return dp[ind]=Math.max(not_take, take);
-
-    }
+   
     public int rob(int[] nums) {
         
         int n= nums.length;
-
-        int[] dp= new int[n];
-        Arrays.fill(dp,-1);
-        return robUtil(nums, n-1,dp);
+        int[] dp= new int[n+1];
+        dp[0]=0;
+        dp[1]=nums[0];
+       
+        for(int ind=2 ;ind<=n;ind++){
+            int not_take= dp[ind-1];
+           
+            int take= nums[ind-1]+dp[ind-2];
+            dp[ind]=Math.max(take, not_take);
+             
+        }
+        return dp[n];
     }
 }
