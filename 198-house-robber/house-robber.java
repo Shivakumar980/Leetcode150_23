@@ -1,33 +1,25 @@
 class Solution {
 
-    private int accomplice(int[] nums, int[] dp ,int index){
+    private int robUtil(int[] nums,int ind,int[] dp){
+        if(ind<0) return 0;
+        if(ind==0) return nums[0];
 
-
-        if(index<0) return 0;
-
-       
-        //if(index==0 || index==1) return nums[index];
-
-        if(dp[index]!=-1){
-            return dp[index];
+        if(dp[ind]!=-1){
+            return dp[ind];
         }
+        int not_take= robUtil(nums,ind-1,dp);
+        int  take= nums[ind]+ robUtil(nums, ind-2,dp);
 
-      
-            int take= nums[index] + accomplice(nums,dp,index-2);
+        
+        return dp[ind]=Math.max(not_take, take);
 
-            int not_take=  accomplice(nums, dp,index-1);
-
-        return dp[index]=Math.max(take,not_take);
     }
-
     public int rob(int[] nums) {
         
-        int n=nums.length;
-        //if(n==2) return Math.max(nums[0],nums[1]);
-        int[] dp=new int[n];
-        Arrays.fill(dp,-1);
+        int n= nums.length;
 
-        return accomplice(nums, dp, n-1);
-    
+        int[] dp= new int[n];
+        Arrays.fill(dp,-1);
+        return robUtil(nums, n-1,dp);
     }
 }
