@@ -1,25 +1,20 @@
 class Solution {
 
-    private int lisUtil(int ind,int prev,int n, int[] nums,int[][] dp){
-       if(ind==n) return 0;
-       
-       if(dp[ind][prev+1]!=-1){
-            return dp[ind][prev+1];
-       }
-       int not_take=lisUtil(ind+1, prev, n, nums,dp);
-       int take=0;
-       if(prev==-1 || nums[ind]>nums[prev]){
-            take= 1+ lisUtil(ind+1, ind, n, nums, dp);
-       }
-
-       return dp[ind][prev+1]= Math.max(take,not_take);
-    }
     public int lengthOfLIS(int[] nums) {
         int n=nums.length;
         int[][] dp=new int[n+1][n+1];
-        for(int[] row:dp){
-            Arrays.fill(row,-1);
+
+        for(int ind=n-1; ind>=0; ind--){
+            for(int prev=ind-1; prev>=-1; prev--){
+                int not_take=dp[ind+1][prev+1];
+                int take=0;
+                if( prev==-1 || nums[ind]>nums[prev]){
+                        take= 1+ dp[ind+1][ind+1];
+                }
+                dp[ind][prev+1]=Math.max(take,not_take);
+                }  
+            }
+             return dp[0][0];
         }
-        return lisUtil(0,-1, n, nums, dp);
+       
     }
-}
