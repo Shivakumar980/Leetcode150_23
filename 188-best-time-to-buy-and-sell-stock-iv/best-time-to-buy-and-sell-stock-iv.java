@@ -1,36 +1,32 @@
 class Solution {
     public int maxProfit(int k, int[] prices) {
-        int n=prices.length;
-        int dp[][][]=new int[n+1][2][k+1];
 
-        for(int buy=0;buy<=1;buy++){
-            for(int cap=0;cap<=k;cap++){
-                dp[n][buy][cap]=0;
-            }
-        }
-        for(int ind=0;ind<=n;ind++){
-            for(int buy=0;buy<=1;buy++){
-                dp[ind][buy][0]=0;
-            }
-        }
-        for(int ind=n-1; ind>=0;ind--){
-            for(int buy=0;buy<=1;buy++){
-                for(int cap=1;cap<=k; cap++){
+         int n=prices.length;
+        int[][] curr=new int[2][k+1];
+        int[][] next=new int[2][k+1];
+        
 
-                    int price=0;
+        for(int ind=n-1;ind>=0;ind--){
+            for(int buy=1;buy>=0;buy--){
+                for(int cap=k;cap>=1;cap--){
+
+                    int profit=0;
+
                     if(buy==1){
-                        price= Math.max(-prices[ind]+dp[ind+1][0][cap], dp[ind+1][1][cap]);
+                        profit=Math.max(-prices[ind]+next[0][cap], next[1][cap]);
                     }
                     else{
-                        price= Math.max(prices[ind]+dp[ind+1][1][cap-1],dp[ind+1][0][cap]);
+                        profit=Math.max(prices[ind]+next[1][cap-1],next[0][cap]);
                     }
 
-                    dp[ind][buy][cap]=price;
+                    curr[buy][cap]=profit;
 
                 }
             }
+            next=curr;
         }
+
+        return curr[1][k];
         
-        return dp[0][1][k];
     }
 }
