@@ -3,10 +3,13 @@ class Solution {
         
         HashMap<String, List<String>> hm= new HashMap<>();
         
+      
         for(String s: strs){
-            char[] charArray= s.toCharArray();
-            Arrays.sort(charArray);
-            String sortedString =new String(charArray);
+            int[] cmap= new int[26];
+            for(char c:s.toCharArray()){
+                cmap[c-'a']++; 
+            }
+            String sortedString =Arrays.toString(cmap);
             hm.putIfAbsent(sortedString, new ArrayList<String>());
         
          
