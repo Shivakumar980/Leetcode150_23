@@ -1,20 +1,22 @@
-//1,2,6,24
-//2.6,12,4
-//24,24,12,4
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int[] res=new int[nums.length];
-        Arrays.fill(res,1);
-        int prefix=1;
-        for(int i=0;i<nums.length;i++){
-            res[i]=prefix;
-            prefix=prefix*nums[i];
+        int n=nums.length;
+        int[] prefix= new int[n];
+        int[] suffix= new int[n];
+        int[] ans= new int[n];
+        prefix[0]=nums[0];
+        suffix[n-1]=nums[n-1];
+        for(int i=1;i<n;i++){
+            prefix[i]=nums[i]*prefix[i-1];
+            int j=n-i-1;
+            suffix[j]=nums[j]*suffix[j+1];
         }
-        int postfix=1;
-        for(int i=nums.length-1;i>=0;i--){
-            res[i]=res[i]*postfix;
-            postfix*=nums[i];
+
+        ans[0]=suffix[1];
+        ans[n-1]=prefix[n-2];
+        for(int i=1;i<n-1;i++){
+            ans[i]= prefix[i-1]*suffix[i+1];
         }
-        return res;
+        return ans;
     }
 }
