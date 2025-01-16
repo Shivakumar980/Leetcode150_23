@@ -4,26 +4,16 @@ class Solution {
         int n2=nums2.length;
 
         int xor=0;
-        if(n1%2==0 && n2%2==0) {
-            return xor;    }
-        else if(n1%2==1 && n2%2==1){
-            for(int num:nums1){
-                xor=xor^num;
-            }
-             for(int num:nums2){
-                xor=xor^num;
-            }
-        }
-        else if(n1%2==1){
-             for(int num:nums2){
-                xor=xor^num;
-            }
-        }
-        else{
-            for(int num:nums1){
-                xor=xor^num;
-            }
 
+        if(n1%2==1){
+             for(int num:nums2){
+                xor=xor^num;
+            }
+        }
+       if(n2%2==1){
+             for(int num:nums1){
+                xor=xor^num;
+            }
         }
         return xor;
     }
