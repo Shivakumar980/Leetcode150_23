@@ -1,76 +1,61 @@
-
-    public class  Pair{
-    
+class Pair {
     int row;
     int col;
 
-
-    public  Pair(int row, int col){
+    public Pair(int row, int col) {
         this.row = row;
         this.col = col;
-       
     }
+}
 
-    }
-    
-    class Solution {
+class Solution {
+    int[] delrow = {-1, 0, 1, 0};
+    int[] delcol = {0, -1, 0, 1};
 
     public int[][] highestPeak(int[][] isWater) {
-        int[] dx = { 0, 0, 1, -1 }; // Horizontal movement: right, left, down, up
-        int[] dy = { 1, -1, 0, 0 }; // Vertical movement corresponding to dx
-
-        int rows = isWater.length;
-        int columns = isWater[0].length;
+        int n = isWater.length;
+        int m = isWater[0].length;
 
         // Initialize the height matrix with -1 (unprocessed cells)
-        int[][] cellHeights = new int[rows][columns];
-        for (int[] row : cellHeights) {
+        int[][] vis = new int[n][m];
+        for (int[] row : vis) {
             Arrays.fill(row, -1);
         }
 
         // Queue to perform breadth-first search
-        Queue<Pair> cellQueue = new LinkedList<>();
+        Queue<Pair> q = new LinkedList<>();
 
         // Add all water cells to the queue and set their height to 0
-        for (int x = 0; x < rows; x++) {
-            for (int y = 0; y < columns; y++) {
-                if (isWater[x][y] == 1) {
-                    cellQueue.add(new Pair(x,y));
-                    cellHeights[x][y] = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (isWater[i][j] == 1) {
+                    q.add(new Pair(i, j));
+                    vis[i][j] = 0;  // Water cells have height 0
                 }
             }
         }
-
-        int heightOfNextLayer = 1; // Initial height for land cells adjacent to water
 
         // Perform BFS
-        while (!cellQueue.isEmpty()) {
-            int layerSize = cellQueue.size();
+        while (!q.isEmpty()) {
+            Pair p = q.poll();  // Fetch and remove the head of the queue
 
-            // Iterate through all cells in the current layer
-            for (int i = 0; i < layerSize; i++) {
-                Pair currentCell = cellQueue.poll();
+            int row0 = p.row;
+            int col0 = p.col;
+            int height = vis[row0][col0];  // Get the height of the current cell
 
-                // Check all four possible directions for neighboring cells
-                for (int d = 0; d < 4; d++) {
-                    int neighborX = currentCell.row + dx[d];
-                    int neighborY = currentCell.col + dy[d];
+            // Check all four possible directions for neighboring cells
+            for (int i = 0; i < 4; i++) {
+                int nrow = row0 + delrow[i];
+                int ncol = col0 + delcol[i];
 
-                    // Check if the neighbor is valid and unprocessed
-                    if (
-                        neighborX>=0 && neighborX<rows && neighborY>=0 && neighborY<columns &&
-                        cellHeights[neighborX][neighborY] == -1
-                    ) {
-                        cellHeights[neighborX][neighborY] = heightOfNextLayer;
-                        cellQueue.add(new Pair(neighborX,neighborY));
-                    }
+                // Check if the neighbor is valid and unprocessed
+                if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && vis[nrow][ncol] == -1) {
+                    vis[nrow][ncol] = height + 1; // Set the new cell's height
+                    q.add(new Pair(nrow, ncol)); // Add to queue
                 }
             }
-            heightOfNextLayer++; // Increment height for the next layer
         }
 
-        return cellHeights;
+        return vis;
     }
-
-    // Function to check if a cell is within the grid boundaries
 }
