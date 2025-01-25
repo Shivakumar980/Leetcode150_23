@@ -32,9 +32,7 @@ class Solution {
            if (hm.containsKey(nums[i])) {
                 int index = hm.get(nums[i]);
                 nums[i] = qlist.get(index).poll(); // Poll from the corresponding queue
-            } else {
-                // If key doesn't exist in hm, handle it (though this case shouldn't happen in current logic)
-            }
+            } 
             
         }
 
