@@ -14,25 +14,31 @@
  * }
  */
 class Solution {
-    int preorderStart=0;
-    int[] preorder1;
+    int[] preorderCopy;
+    int preOrderStart=0;
+    
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        preorder1=preorder;
-        HashMap<Integer, Integer> hm=new HashMap<>();
-        for(int i=0;i<inorder.length;i++){
-            hm.put(inorder[i],i);
+        preorderCopy= preorder;
+        Map<Integer, Integer> mpp= new HashMap<>();
+        for(int i=0; i< inorder.length; i++){
+            mpp.put(inorder[i],i);
         }
-        return constructTree(0,inorder.length-1,hm);
+
+        return constructTree( 0,  inorder.length-1,  mpp);
     }
-    private TreeNode constructTree(int start, int end,HashMap<Integer, Integer> hm ){
-        if(start>end){
-            return null;
-        }
-        int rootVal=preorder1[preorderStart++];
+
+    private TreeNode constructTree(int start, int end, Map<Integer,Integer> mpp){
+        if(start>end) return null;
+
+        int rootVal= preorderCopy[preOrderStart++];
         TreeNode root= new TreeNode(rootVal);
-        int indexInorder=hm.get(rootVal);
-        root.left=constructTree(start,indexInorder-1,hm);
-        root.right=constructTree(indexInorder+1,end,hm);
+
+        int inOrderIndex= mpp.get(rootVal);
+
+        root.left= constructTree( start, inOrderIndex-1 ,mpp);
+        root.right= constructTree( inOrderIndex+1, end, mpp);
+
         return root;
+    
     }
 }
