@@ -3,8 +3,8 @@ class Triplet{
 
     int x;
     int y;
-    double d;
-    public Triplet(int x, int y, double z){
+    int d;
+    public Triplet(int x, int y, int z){
         this.x=x;
         this.y=y;
         this.d=z;
@@ -16,22 +16,25 @@ class Triplet{
     class Solution {
     public int[][] kClosest(int[][] points, int k) {
         
-        PriorityQueue<Triplet> pq= new PriorityQueue<>((a,b)->Double.compare(a.d, b.d));
+        PriorityQueue<Triplet> pq= new PriorityQueue<>((a,b)->b.d-a.d);
         for(int[] point: points){
             int xc=point[0];
             int yc=point[1];
-            double distance= Math.sqrt(xc*xc + yc*yc);
+            int distance= xc*xc + yc*yc;
 
             pq.add(new Triplet(xc,yc,distance));
+            if(pq.size()>k){
+                pq.poll();
+            }
+            
         }
 
         int[][] result= new int[k][2];
         int row=0;
-        while(k>0){
-            Triplet triplet= pq.remove();
+        while(!pq.isEmpty()){
+            Triplet triplet= pq.poll();
             result[row][0]=triplet.x;
             result[row++][1]=triplet.y;
-            k--;
         }
         return result;
     }
