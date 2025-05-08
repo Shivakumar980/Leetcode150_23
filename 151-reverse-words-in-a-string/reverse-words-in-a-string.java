@@ -1,29 +1,29 @@
 class Solution {
     public String reverseWords(String s) {
-        ArrayList<String> sl=new ArrayList<>();
-        int front=s.length()-1; 
-        int rear=s.length()-1;
-        while(front >=0 && rear>=0){
-            char f=s.charAt(front);
-            char r=s.charAt(rear);
-            System.out.println(f+" "+r);
-            if(f==' '&& r== ' '){
+        
+        int n= s.length();
+        ArrayList<String> al= new ArrayList<String>();
+        int front= n-1;
+        int rear= n-1;
+        while(front>=0 ){
+            char f= s.charAt(front);
+            char r= s.charAt(rear);
+            if(f==' ' && r== ' '){
                 front--;
                 rear--;
             }
-            else if(f==' ' && r !=' '){
-                sl.add(s.substring(front+1,rear+1));
-                rear=front;
-                //System.out.println(s.substring(front+1,rear+1));
+            else if(f==' ' && r!=' '){
+                al.add(s.substring(front+1, rear+1));
+                rear=front;  
             }
             else{
                 front--;
             }
-            
         }
-       if (rear >= 0 ) {
-            sl.add(s.substring(0, rear + 1));
+        if(rear>=0 &&  s.charAt(rear)!=' '){
+            al.add(s.substring(0,rear+1));
         }
-        return String.join(" ", sl);
+
+        return String.join(" ",al);
     }
 }
