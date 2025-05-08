@@ -5,7 +5,7 @@ class Solution {
         ArrayList<String> al= new ArrayList<String>();
         int front= n-1;
         int rear= n-1;
-        while(front>=0 ){
+        while(front>=0 && rear>=0){
             char f= s.charAt(front);
             char r= s.charAt(rear);
             if(f==' ' && r== ' '){
