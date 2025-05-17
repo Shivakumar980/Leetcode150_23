@@ -18,11 +18,8 @@ class Solution {
                 }
                 left++;
             }
-            int sum=0;
-            for(int value: hm.values()){
-                sum+=value;
-            }
-            maxcount= Math.max(sum, maxcount);
+            
+            maxcount= Math.max(right-left+1, maxcount);
 
 
             right++;
