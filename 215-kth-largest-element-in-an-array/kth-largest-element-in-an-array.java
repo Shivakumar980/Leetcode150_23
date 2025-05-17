@@ -4,12 +4,9 @@ class Solution {
 
         PriorityQueue<Integer> pq= new PriorityQueue<>();
         for(int i=0 ;i<n ;i++){
-            if(pq.size()<k){
-                pq.offer(nums[i]);
-            }
-            else if(nums[i]> pq.peek()){
+            pq.offer(nums[i]);
+            if(pq.size()>k){
                 pq.poll();
-                pq.offer(nums[i]);
             }
         }
 
