@@ -1,25 +1,25 @@
 class Solution {
     public int trap(int[] height) {
+        
         int n=height.length;
-
+        int leftmax=0;
+        int rightmax=0;
         int left=0;
         int right=n-1;
-        int leftMax=height[left];
-        int rightMax=height[right];
-        int total=0;
-        while(left<right){
-            if(leftMax<rightMax){
+
+        int area=0;
+        while(left<=right){
+            if(leftmax<rightmax){
+                leftmax=Math.max(leftmax, height[left]); //to avoaid writing area>=0, we are updating left max
+                area+= leftmax-height[left];
                 left++;
-                leftMax=Math.max(leftMax,height[left]);
-                total+=leftMax-height[left];
             }
             else{
-                right--;
-                rightMax=Math.max(rightMax,height[right]);
-                total+=rightMax-height[right];
-
+                 rightmax=Math.max(rightmax, height[right]);
+                 area+= rightmax- height[right];
+                 right--;
             }
         }
-        return total;
+        return area;
     }
 }
