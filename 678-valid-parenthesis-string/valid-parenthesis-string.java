@@ -1,38 +1,29 @@
 class Solution {
     public boolean checkValidString(String s) {
+        int leftMin=0;
+        int leftMax=0;
+
         int n=s.length();
 
-        Stack<Integer> openBraces=new Stack<>();
-        Stack<Integer> unlocked=new Stack<>();
-        for(int i=0;i<n;i++){
-            if(s.charAt(i)=='*'){
-                unlocked.push(i);
+        for(int i=0 ; i< n ; i++){
+            char c=s.charAt(i);
+
+            if(c=='('){
+                leftMin++;
+                leftMax++;
             }
-            else if(s.charAt(i)=='('){
-                openBraces.push(i);
+            else if(c==')'){
+                leftMin--;
+                leftMax--;
             }
-            else if(s.charAt(i)==')'){
-                if(!openBraces.isEmpty()){
-                    openBraces.pop();
-                }
-                else if(!unlocked.isEmpty()){
-                    unlocked.pop();
-                }
-                else{
-                    return false;
-                }
+            else{
+                leftMin--;
+                leftMax++;
             }
+
+            if(leftMax<0) return false;
+            if(leftMin<0) leftMin=0;
         }
-     
-        while(!unlocked.isEmpty() && !openBraces.isEmpty() && unlocked.peek()>openBraces.peek()){
-           
-                unlocked.pop();
-                openBraces.pop();
-        }
-        
-        if(!openBraces.isEmpty()){
-            return false;
-        }
-        return true;
+        return leftMin==0;
     }
 }
