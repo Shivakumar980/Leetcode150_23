@@ -25,7 +25,7 @@ class Solution {
         int n= lists.length;
 
         ListNode dummy =new ListNode(0);
-        ListNode head= dummy;
+        ListNode curr= dummy;
         
 
         PriorityQueue< Pair> pq= new PriorityQueue<>((a,b)-> a.value - b.value);
@@ -40,8 +40,8 @@ class Solution {
         //2,2,[2]
         while(!pq.isEmpty()){
                 Pair smallest= pq.poll();
-                head.next =smallest.node;
-                head= head.next;
+                curr.next =smallest.node;
+                curr= curr.next;
 
                 if(smallest.node.next!=null){
                     pq.add(new Pair(smallest.node.next.val,  smallest.node.next));
