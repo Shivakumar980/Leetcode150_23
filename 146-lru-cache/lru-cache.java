@@ -1,82 +1,84 @@
 class Node{
-    public int key;
-    public int val;
-    Node next;
+    int key;
+    int val;
     Node prev;
+    Node next;
 
-    public Node(int key,int val){
-        this.key=key;
+    public Node(int key, int val){
+        this.key= key;
         this.val=val;
     }
+
     public Node(){
 
     }
 
+
 }
+
 class LRUCache {
-    
-    HashMap<Integer , Node> hm= new HashMap<>();
-    Node dummyhead,dummytail;
-    int capacity_;
+
+    int _capacity;
+    HashMap<Integer, Node> cache= new HashMap<>();
+    Node dummyhead;
+    Node dummytail;
+
     public LRUCache(int capacity) {
-        capacity_=capacity;
-        dummyhead=new Node();
-        dummytail=new Node();
-        dummyhead.next=dummytail;
-        dummytail.prev=dummyhead;
-    }
-    public void deleteNode(Node node){
-        Node nodeleft=node.prev;
-        Node noderight=node.next;
-        nodeleft.next=noderight;
-        noderight.prev=nodeleft;
-    }
-    public void insertAfterHead(Node node){
-        Node rightnode=dummyhead.next;
-        dummyhead.next=node;
-        node.next=rightnode;
-        rightnode.prev=node;
-        node.prev=dummyhead;
-    
+        this._capacity= capacity;
+         dummyhead=new Node();
+         dummytail=new Node();
+        dummyhead.next= dummytail;
+        dummytail.prev= dummyhead;
+
     }
     
     public int get(int key) {
-        if(hm.containsKey(key)){
-            Node node=hm.get(key);
-            deleteNode(node);
-            insertAfterHead(node);
-            return node.val;
+        //case 1: it contains key -> delete- > insert afterhead
+        //case 2: does not contains
+        if(!cache.containsKey(key)){
+            return -1;
         }
-            return -1; 
+        Node node=cache.get(key);
+        deleteNode(node);
+        insertAfterHead(node);
+        return node.val;
     }
-        
     
     public void put(int key, int value) {
-        if(hm.containsKey(key)){
-            Node node=hm.get(key);
-            node.val=value;
-            hm.put(key,node);
+
+        if(cache.containsKey(key)){
+            Node node= cache.get(key);
+            node.val= value;
             deleteNode(node);
             insertAfterHead(node);
         }
-        else if(hm.size()==capacity_){
-            Node dnode=dummytail.prev;
-            deleteNode(dnode);
-            hm.remove(dnode.key);
-            Node node=new Node(key,value);
-            insertAfterHead(node);
-            hm.put(key,node);
-
-        }
         else{
-             Node node=new Node(key,value);
+            if(cache.size()==_capacity){
+                Node node = dummytail.prev;
+                deleteNode(node);
+                cache.remove(node.key);
+            }
+            Node node= new Node(key,value);
             insertAfterHead(node);
-            hm.put(key,node);
-             
+            cache.put(key, node);
         }
         
-       
-       
+    }
+
+    public void deleteNode(Node node){
+        Node nextNode= node.next;
+        Node prevNode= node.prev;
+
+        nextNode.prev= prevNode;
+        prevNode.next= nextNode;
+    }
+
+    public void insertAfterHead(Node node){
+        Node nextNode= dummyhead.next;
+        dummyhead.next= node;
+        node.next= nextNode;
+        nextNode.prev= node;
+        node.prev= dummyhead;
     }
 }
 
