@@ -12,12 +12,11 @@
  class Pair{
     int value;
     ListNode node;
-    int row;
     
-    public Pair(int value, int row,ListNode node){
+    public Pair(int value, ListNode node){
         this.value= value;
         this.node= node;
-        this.row= row;
+       
     }
 }
 class Solution {
@@ -33,7 +32,7 @@ class Solution {
 
         for(int i=0;i<n;i++){
             ListNode node= lists[i];
-            if(node!=null) pq.add(new Pair( node.val, i, node));
+            if(node!=null) pq.add(new Pair( node.val, node));
             
         }
         // 1,0,[1]
@@ -45,12 +44,11 @@ class Solution {
                 head= head.next;
 
                 if(smallest.node.next!=null){
-                    pq.add(new Pair(smallest.node.next.val, smallest.row ,  smallest.node.next));
+                    pq.add(new Pair(smallest.node.next.val,  smallest.node.next));
                 }
 
         }
 
-        return dummy.next;
-        
+        return dummy.next; 
     }
 }
