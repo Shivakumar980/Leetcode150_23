@@ -8,8 +8,8 @@ class Solution {
         while(low<=high){
             int mid= low+ (high-low)/2;
             //leftsubarray
-            if(nums[0]<=nums[mid]){
-                mini= Math.min(mini, nums[0]);
+            if(nums[low]<=nums[mid]){
+                mini= Math.min(mini, nums[low]);
                 low=mid+1;
             }
             else{
