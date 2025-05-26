@@ -14,21 +14,24 @@
  * }
  */
 class Solution {
-    boolean flag=true;
-    private int heightOfBinaryTree(TreeNode root){
-        if(root==null){
-            return 0;
-        }
-        int leftHeight=heightOfBinaryTree(root.left);
-        int rightHeight=heightOfBinaryTree(root.right);
-
-        if(Math.abs(leftHeight-rightHeight)>1){
-            flag=false;
-        }
-        return 1+Math.max(leftHeight,rightHeight);
-    }
     public boolean isBalanced(TreeNode root) {
-        heightOfBinaryTree(root);
-        return flag;
+        boolean[] res= new boolean[1];
+        res[0]=true;
+        calculateHeight(root,res);
+        return res[0];
+    }
+
+     private int calculateHeight(TreeNode root, boolean[] res){
+
+        if(root==null) return 0;
+        int ld= calculateHeight(root.left,res);
+        int rd= calculateHeight(root.right,res);
+
+        if(Math.abs(ld-rd)>1){
+            res[0]=false;
+        }
+
+        return 1+ Math.max(ld, rd);
+
     }
 }
