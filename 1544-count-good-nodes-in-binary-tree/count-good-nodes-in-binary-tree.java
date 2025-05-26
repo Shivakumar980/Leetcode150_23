@@ -14,21 +14,21 @@
  * }
  */
 class Solution {
-    int cnt=0;
-    private void helper(TreeNode root, int maxval){
-        if(root==null){
-            return;
-        }
-        if(root.val>=maxval){
-            cnt++;
-        }
-        maxval=Math.max(root.val,maxval);
-        helper(root.left,maxval);
-        helper(root.right,maxval);
-        return;
-    }
+    
     public int goodNodes(TreeNode root) {
-        helper(root,root.val);
-        return cnt;
+        return countNodes( root, root.val, new int[]{0});
     }
+    private int countNodes(TreeNode node , int maximum, int[] count){
+        if(node==null) return 0;
+        if(node.val>= maximum){
+            count[0]+=1;
+            maximum=node.val;
+        }
+        int left= countNodes(node.left,maximum,count);
+        int right= countNodes(node.right,maximum,count);
+
+        return count[0];
+    }
+
+
 }
