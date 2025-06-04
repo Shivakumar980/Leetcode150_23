@@ -23,7 +23,7 @@ class Solution {
     private int[] dfs(int row, int col, int[][] grid, int[][] visited,int[] area){
 
         if(row<0 || row==grid.length || col<0 || col==grid[0].length || grid[row][col]==0 || visited[row][col]==1){
-            return area;
+            return new int[]{0};
         }
         visited[row][col]=1;
         area[0]+=1;
@@ -32,8 +32,6 @@ class Solution {
             int ncol=col+delcol[i];
             dfs(nrow,ncol, grid,visited,area);
         }
-        
-        System.out.println(area[0]);
         return area;
     }
 }
