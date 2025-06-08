@@ -6,31 +6,12 @@ class Solution {
         int m= board[0].length;
         int[][] visited= new int[n][m];
 
-        for(int i=0; i< m ;i++){
-            if(visited[0][i]==0 && board[0][i]=='O'){
-                  dfs(0, i, board, visited);
+        for(int i=0 ; i< n ;i++){
+            for(int j=0 ; j< m ; j++){
+                if(visited[i][j]==0 && (i==0 || i==n-1||j==0 || j==m-1) && board[i][j]=='O'){
+                   dfs(i, j, board, visited);
+                }
             }
-          
-        }
-
-        for(int i=0; i< m ;i++){
-            if(visited[n-1][i]==0 && board[n-1][i]=='O'){
-                  dfs(n-1, i, board, visited);
-            }
-          
-        }
-
-        for(int i=0; i< n ;i++){
-            if(visited[i][0]==0 && board[i][0]=='O'){
-                  dfs(i, 0, board, visited);
-            }
-          
-        }
-        for(int i=0; i< n ;i++){
-            if(visited[i][m-1]==0 && board[i][m-1]=='O'){
-                  dfs(i, m-1, board, visited);
-            }
-          
         }
 
         for(int i=0 ; i< n ;i++){
