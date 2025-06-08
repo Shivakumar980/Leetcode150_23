@@ -1,57 +1,50 @@
 class Pair{
     int node;
-    int weight;
-    public Pair(int node,int weight){
-        this.node=node;
-        this.weight=weight;
+    int distance;
+    public Pair(int node, int distance){
+        this.node= node;
+        this.distance= distance;
     }
 }
-
 class Solution {
     public int networkDelayTime(int[][] times, int n, int k) {
-        ArrayList<ArrayList<Pair>> adj=new ArrayList<>();
-        for(int i=0;i<=n;i++){
+
+        List<List<Pair>> adj= new ArrayList<>();
+        for(int i=0 ; i<= n ;i++){
             adj.add(new ArrayList<Pair>());
         }
-        int m=times.length;
 
-        for(int i=0;i<m;i++){
-            adj.get(times[i][0]).add(new Pair(times[i][1],times[i][2]));
+        for(int[] time : times){
+            
+            adj.get(time[0]).add(new Pair(time[1],time[2]));
         }
 
-        //Queue<Pair> q=new LinkedList<>();
-        PriorityQueue<Pair> q = new PriorityQueue<>((a, b) -> a.weight - b.weight);
-        int[] distance=new int[n+1];
-        Arrays.fill(distance,(int)1e9);
-        distance[k]=0;
-        q.add(new Pair(k,0));
+        int[] dist= new int[n+1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[k]=0;
+        PriorityQueue<Pair> pq= new PriorityQueue<>((a,b)-> a.distance-b.distance);
+        pq.add(new Pair(k,0));
 
-        while(!q.isEmpty()){
-            int node=q.peek().node;
-            int wt=q.peek().weight;
-            q.remove();
+        while(!pq.isEmpty()){
+            Pair p=pq.poll();
+            int node= p.node;
+            int distance=p.distance;
 
-            for(Pair pair:adj.get(node)){
-                int nd=pair.node;
-                int edgWt=pair.weight;
-                if(wt+edgWt<distance[nd]){
-                    distance[nd]=wt+edgWt;
-                    q.add(new Pair(nd,distance[nd]));
+            for(Pair pr: adj.get(node)){
+                int nd= pr.node;
+                int d= pr.distance;
+                if(distance+d < dist[nd]){
+                    dist[nd]= distance+d;
+                    pq.offer(new Pair(nd, dist[nd]));
                 }
             }
-
         }
-        int ans=Integer.MIN_VALUE;
-        for(int i=1;i<=n;i++){
-            if(distance[i]==(int)1e9){
-                return -1;
-            }
-            else{
-                ans=Math.max(ans,distance[i]);
-            }
-            
+        int mini=0;
+        for(int i=1; i<= n ;i++){
+            if(dist[i]==Integer.MAX_VALUE) return -1;
+            mini= Math.max(mini, dist[i]);
         }
-
-        return ans;
+        return mini;
+        
     }
 }
