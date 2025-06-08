@@ -6,6 +6,7 @@ class Solution {
          for(int i=0; i< numCourses; i++){
             adj.add(new ArrayList<>());
         }
+        //direction of the edges is reverses
         for(int[] edge:prerequisites){
             adj.get(edge[1]).add(edge[0]);
         }
