@@ -1,62 +1,60 @@
-class Pair{
-    int node;
-    int weight;
-    public Pair(int node,int weight){
-        this.node=node;
-        this.weight=weight;
-    }
-}
+
 class Tuple{
     int node;
     int weight;
-    int stops;
-    public Tuple(int node,int weight,int stops){
-        this.node=node;
-        this.weight=weight;
-        this.stops=stops;
+    int steps;
+
+    public Tuple(int node, int weight, int steps){
+        this.node= node;
+        this.weight= weight;
+        this.steps= steps;
+    }
+
+}
+class Pair{
+    int node;
+    int weight;
+
+    public Pair(int node, int weight){
+        this.node= node;
+        this.weight= weight;
     }
 }
-
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
 
-        ArrayList<ArrayList<Pair>> adj=new ArrayList<>();
-        for(int i=0;i<n;i++){
-            adj.add(new ArrayList<Pair>());
-        }
-        int m=flights.length;
-
-        for(int i=0;i<m;i++){
-            adj.get(flights[i][0]).add(new Pair(flights[i][1],flights[i][2]));
-        }
-
-        Queue<Tuple> pq=new LinkedList<>();
-        int[] distance=new int[n];
-        Arrays.fill(distance,(int)1e9);
-        distance[src]=0;
-        pq.add(new Tuple(src,0,0));
-        while(!pq.isEmpty()){
-            int node=pq.peek().node;
-            int wt=pq.peek().weight;
-            int stops=pq.peek().stops;
-            pq.remove();
-            if(stops>k) continue;
-           
-            for(Pair pair:adj.get(node)){
-                int nd=pair.node;
-                int edgWt=pair.weight;
-
-                if(stops<=k && wt+edgWt<distance[nd]){
-                    distance[nd]=wt+edgWt;
-                    pq.add(new Tuple(nd,distance[nd],1+stops));
-                }
+            List<List<Pair>> adj= new ArrayList<>();
+            for(int i=0; i< n ;i++){
+                adj.add(new ArrayList<>());
+            }
+            for(int[] flight: flights){
+                adj.get(flight[0]).add(new Pair(flight[1],flight[2]));
             }
 
+            Queue<Tuple> q= new LinkedList<>();
+            q.add(new Tuple(src,0, 0));
 
-        }
-        if(distance[dst]==(int)1e9){
-            return -1;
-        }
-        return distance[dst];
+            int[] cost= new int[n];
+            Arrays.fill(cost,(int)1e9);
+            cost[src]=0;
+            while(!q.isEmpty()){
+                int node= q.peek().node;
+                int weight=q.peek().weight;
+                int steps=q.peek().steps;
+                q.remove();
+                if(steps>k){
+                    continue;
+                }
+
+                for(Pair p: adj.get(node)){
+                    int nd=p.node;
+                    int wt=p.weight;
+                    if(weight+wt< cost[nd]){
+                        cost[nd]=weight+wt;
+                        q.offer(new Tuple(nd, cost[nd],steps+1));
+                    }
+                }
+            }
+            return cost[dst]==(int)1e9 ? -1: cost[dst];
     }
 }
