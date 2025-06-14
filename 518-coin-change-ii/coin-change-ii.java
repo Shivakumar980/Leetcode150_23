@@ -9,7 +9,6 @@ class Solution {
     }
 
     private int dfs(int ind, int target, int[] coins , int[][] dp){
-        if(target==0) return 1;
         if(ind<0) return 0;
         if(ind==0 && target%coins[ind]==0) return 1;
         if(dp[ind][target]!=-1){
