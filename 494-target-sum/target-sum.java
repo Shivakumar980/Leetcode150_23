@@ -1,49 +1,36 @@
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
-        return countPartitions(nums,target);
+        int n= nums.length;
+        int total_sum=0;
+        for(int num:nums){
+            total_sum+=num;
+        }
+        if(total_sum-target<0 || (total_sum-target)%2!=0) return 0;
+        int target1= (total_sum-target)/2;
+        int[][] dp= new int[n][target1+1];
+        
+        for(int[] row: dp){
+            Arrays.fill(row,-1);
+        }
+        return dfs(n-1, target1, nums, dp);
     }
-     int countPartitions(int[] arr, int d) {
-        // code here
-        int totalsum=0;
-        
-        for(int num:arr){
-            totalsum+=num;
+
+    private int dfs(int ind, int target, int[] nums, int[][] dp){
+        if(ind==0){
+            if(target==0 && nums[0]==0) return 2;
+            if(target ==0 || target == nums[0]) return 1;
+            return 0;
         }
-        if(totalsum-d<0 || (totalsum-d)%2!=0) return 0;
-        
-        return perfectSum(arr , (totalsum-d)/2);
-        
-    }
-    public int perfectSum(int[] nums, int target) {
-        // code here
-        int n=nums.length;
-        int[][] dp=new int[n][target+1];
-        if(nums[0]==0){
-            dp[0][0]=2;
+
+        if(dp[ind][target]!=-1){
+            return dp[ind][target];
         }
-        else{
-            dp[0][0]=1;
-            if(nums[0]<=target){
-                dp[0][nums[0]]=1;
-            }
+
+        int not_take= dfs(ind-1, target, nums, dp);
+        int take=0;
+        if(nums[ind]<=target){
+            take= dfs(ind-1, target-nums[ind], nums, dp);
         }
-        //if(nums[0]!=0 && nums[0]<=target){
-          //      dp[0][nums[0]]=1;
-          //  }
-            
-        for(int ind=1;ind<n;ind++){
-            for(int sum=0;sum<=target;sum++){
-                
-                int not_take=dp[ind-1][sum];
-                int take=0;
-                if(nums[ind]<=sum){
-                    take=dp[ind-1][sum-nums[ind]];
-                }
-                dp[ind][sum]=take+not_take;
-            }
+        return dp[ind][target]= take+not_take;
         }
-        
-        return dp[n-1][target];
-        
-    }
 }
