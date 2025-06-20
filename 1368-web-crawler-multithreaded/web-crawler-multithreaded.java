@@ -7,7 +7,7 @@
  */
 class Solution {
     public List<String> crawl(String startUrl, HtmlParser htmlParser) {
-        String hostName = getHostName(startUrl);
+        String hostName= getHostName(startUrl);
 
         List<String> res= new ArrayList<>();
         Set<String> visited= new HashSet<>();
@@ -19,45 +19,43 @@ class Solution {
             Thread t= new Thread(r);
             t.setDaemon(true);
             return t;
-        });
+        }) ;
 
         while(true){
             String url= queue.poll();
             if(url!=null){
-
-            
-            if(getHostName(url).equals(hostName) &&! visited.contains(url)){
-                res.add(url);
-                visited.add(url);
-                tasks.add(executor.submit(()->{
-                    List<String> newUrls= htmlParser.getUrls(url);
-                    for(String newUrl:newUrls){
-                        queue.offer(newUrl);
-                    }
-
-                }));
-            }
+                if(hostName.equals(getHostName(url)) && !visited.contains(url)){
+                    res.add(url);
+                    visited.add(url);
+                    tasks.add(executor.submit(()-> {
+                        List<String> newUrls=  htmlParser.getUrls(url);;
+                        for(String newUrl: newUrls){
+                            queue.offer(newUrl);
+                        }
+                    }));
+                }
             }
             else{
                 if(!tasks.isEmpty()){
-                    Future nextTask= tasks.poll();
+                    Future nextTask=tasks.poll();
                     try{
                         nextTask.get();
                     }
-                    catch(InterruptedException | ExecutionException e){}
+                    catch(InterruptedException | ExecutionException e){
+
+                    }
                 }
                 else{
                     break;
                 }
             }
-        
         }
         return res;
     }
 
-    private String getHostName(String url){
-        url= url.substring(7);
-        String parts[]= url.split("/");
+    public String getHostName(String url){
+        url=url.substring(7);
+        String[] parts=url.split("/");
         return parts[0];
     }
 }
