@@ -15,8 +15,8 @@ class Solution {
                 hm.get(key).add(strs[i]);
         }
 
-        for(Map.Entry<String,List<String>> entry: hm.entrySet()){
-            result.add(entry.getValue());
+        for(List<String> lis: hm.values()){
+            result.add(lis);
         }
         return result;
 
