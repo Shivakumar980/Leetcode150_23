@@ -15,10 +15,7 @@ class Solution {
                 hm.get(key).add(strs[i]);
         }
 
-        for(List<String> lis: hm.values()){
-            result.add(lis);
-        }
-        return result;
+        return new ArrayList<>(hm.values());
 
     }
 }
