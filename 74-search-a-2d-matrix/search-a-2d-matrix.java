@@ -4,24 +4,25 @@ class Solution {
         int m= matrix[0].length;
 
         int low=0;
-        int high=m*n-1;
+        int high= m*n-1;
 
         while(low<=high){
-            int mid= low + (high-low)/2;
+            int mid= low+ (high-low)/2;
 
             int row= mid/m;
             int col= mid%m;
 
-            if(matrix[row][col]< target){
+            if(matrix[row][col]<target){
                 low=mid+1;
             }
             else if(matrix[row][col]>target){
                 high=mid-1;
             }
-            else{
+            else if (matrix[row][col]==target){
                 return true;
             }
         }
         return false;
+        
     }
 }
