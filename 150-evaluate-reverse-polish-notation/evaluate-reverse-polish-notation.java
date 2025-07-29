@@ -1,33 +1,33 @@
 class Solution {
     public int evalRPN(String[] tokens) {
         int n=tokens.length;
-        Stack<String> st= new Stack<>();
+        Stack<Integer> st= new Stack<>();
         for(int i=0; i< n ;i++){
             String str= tokens[i];
             if(str.equals("+")){
-                int second= Integer.valueOf(st.pop());
-                int first= Integer.valueOf(st.pop());
-                st.push(String.valueOf(first+second));
+                int second= st.pop();
+                int first= st.pop();
+                st.push(first+second);
             }
             else if(str.equals("-")){
-                int second= Integer.valueOf(st.pop());
-                int first= Integer.valueOf(st.pop());
-                st.push(String.valueOf(first-second));
+                int second= st.pop();
+                int first= st.pop();
+                st.push(first-second);
             }
              else if(str.equals("/")){
-                int second= Integer.valueOf(st.pop());
-                int first= Integer.valueOf(st.pop());
-                st.push(String.valueOf(first/second));
+                int second= st.pop();
+                int first= st.pop();
+                st.push(first/second);
             }
              else if(str.equals("*")){
-                int second= Integer.valueOf(st.pop());
-                int first= Integer.valueOf(st.pop());
-                st.push(String.valueOf(first*second));
+                int second= st.pop();
+                int first= st.pop();
+                st.push(first*second);
             }
             else{
-                st.push(str);
+                st.push(Integer.valueOf(str));
             }
         }
-        return Integer.valueOf(st.pop());
+        return st.pop();
     }
 }
