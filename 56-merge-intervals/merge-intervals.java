@@ -14,7 +14,7 @@ class Solution {
                 last[1]= Math.max(last[1],intervals[i][1]);
             }
             else{
-                last=intervals[i];
+                //last=intervals[i];
                 result.add(intervals[i]);
             }
         }
