@@ -1,33 +1,31 @@
 class Solution {
-    int[] delrow={0,1,0,-1};
-    int[] delcol={1,0,-1,0};
+    int[] delrow={-1,1,0,0};
+    int[] delcol={0,0,-1,1};
     public int numIslands(char[][] grid) {
         int n=grid.length;
         int m=grid[0].length;
+
+        int[][] visited= new int[n][m];
         int count=0;
-        int[][] visited=new int[n][m];
-        for(int i=0; i< n; i++){
-            for(int j=0;j<m ;j++ ){
-                if(grid[i][j]=='1' && visited[i][j]==0){
-                    dfs(i, j, grid, visited);
+        for(int i=0; i<n ;i++){
+            for(int j=0; j<m ; j++){
+                if(visited[i][j]==0 && grid[i][j]=='1'){
                     count++;
+                    dfs(i, j, visited, grid);
                 }
             }
         }
         return count;
     }
 
-    private void dfs(int row, int col, char[][] grid, int[][] visited){
-
-        if(row<0 || row==grid.length || col<0 || col==grid[0].length || grid[row][col]=='0' || visited[row][col]==1){
-            return;
-        }
+    private void dfs(int row, int col, int[][] visited, char[][] grid){
         visited[row][col]=1;
-        for(int i=0; i< 4; i++){
-            int nrow=row+delrow[i];
-            int ncol=col+delcol[i];
-            dfs(nrow,ncol, grid,visited);
+        for(int i=0; i<4; i++ ){
+            int nrow= row+delrow[i];
+            int ncol= col+delcol[i];
+            if(nrow>=0 && nrow<grid.length && ncol>=0 && ncol<grid[0].length && visited[nrow][ncol]==0 && grid[nrow][ncol]=='1'){
+                dfs(nrow, ncol, visited, grid);
+            }
         }
-        return;
     }
 }
