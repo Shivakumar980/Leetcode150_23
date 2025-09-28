@@ -1,52 +1,48 @@
 class Pair{
-    int value;
+    int remaining_count;
     int time;
-    public Pair(int value, int time){
-        this.value=value;
+
+    public Pair(int count, int time){
+        this.remaining_count=count;
         this.time=time;
     }
 }
     
 class Solution {
     public int leastInterval(char[] tasks, int n) {
-
-        int[] fmap= new int[26];
+        
+        int[] frequencyMap = new int[26];
 
         for(char task: tasks){
-            fmap[task-'A']++;
+            frequencyMap[task-'A']++;
         }
 
+        PriorityQueue<Integer> pq= new PriorityQueue<>((a,b)-> b-a);
 
-
-        PriorityQueue<Integer> pq= new PriorityQueue<>((a,b)->b-a);
-        for(int val: fmap){
-            if(val>0) {
-                pq.offer(val);
-            };
+        for(int val: frequencyMap){
+            if(val>0){
+                pq.add(val);
+            }
         }
 
-        Queue<Pair> q= new LinkedList<>();
-        int tm=0;
-        while(!pq.isEmpty() || !q.isEmpty()){
+        Queue<Pair> cooldown= new LinkedList<>();
+
+        int time=0;
+        while(!pq.isEmpty() || !cooldown.isEmpty()){
+            time+=1;
 
             if(!pq.isEmpty()){
-                int val= pq.poll();
-                val-=1;
-                if(val>0){
-                    q.add(new Pair(val,tm+n));
+                int count= pq.poll();
+                count-=1;
+                if(count>0){
+                    cooldown.offer(new Pair(count,time+n));
                 }
-            } 
-
-            if(!q.isEmpty() &&q.peek().time==tm){
-                Pair p= q.poll();
-                pq.add(p.value);
             }
-              
-            tm++;
-
+            if(!cooldown.isEmpty() && cooldown.peek().time==time){
+                pq.offer(cooldown.poll().remaining_count);
+            }
         }
+        return time;
 
-        return tm;
-        
     }
 }
