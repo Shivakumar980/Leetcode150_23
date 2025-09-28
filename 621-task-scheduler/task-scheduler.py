@@ -21,8 +21,8 @@ class Solution:
                 if count<0:
                     cooldown.append((count,time+n))
             if cooldown and cooldown[0][1]==time:
-                remaining_count,_ = cooldown.popleft()
-                heapq.heappush(heap, remaining_count)
+                #remaining_count,_ = cooldown.popleft()
+                heapq.heappush(heap, cooldown.popleft()[0])
         
         return time
 
