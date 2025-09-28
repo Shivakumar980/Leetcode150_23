@@ -29,7 +29,7 @@ class Solution {
 
         int time=0;
         while(!pq.isEmpty() || !cooldown.isEmpty()){
-            time+=1;
+           
 
             if(!pq.isEmpty()){
                 int count= pq.poll();
@@ -41,6 +41,7 @@ class Solution {
             if(!cooldown.isEmpty() && cooldown.peek().time==time){
                 pq.offer(cooldown.poll().remaining_count);
             }
+            time+=1;
         }
         return time;
 
