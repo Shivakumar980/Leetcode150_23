@@ -3,11 +3,10 @@ class Solution:
         map={}
         n=len(nums)
         
-        for i in range(0, n):
-            sum=0
-            sum=target-nums[i]
+        for i,num in enumerate(nums):
+            sum=target-num
 
             if sum in map:
                 return [map[sum],i]
-            map[nums[i]]=i
+            map[num]=i
         return []
