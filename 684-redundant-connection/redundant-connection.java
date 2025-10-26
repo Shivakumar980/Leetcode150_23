@@ -1,48 +1,58 @@
 class Solution {
-
-    // Performs DFS and returns true if there's a path between src and target.
-    private boolean isConnected(
-        int src,
-        int target,
-        boolean[] visited,
-        List<Integer>[] adjList
-    ) {
-        visited[src] = true;
-
-        if (src == target) {
-            return true;
-        }
-
-        boolean isFound = false;
-        for (int adj : adjList[src]) {
-            if (!visited[adj]) {
-                isFound = isFound || isConnected(adj, target, visited, adjList);
-            }
-        }
-
-        return isFound;
-    }
-
     public int[] findRedundantConnection(int[][] edges) {
-        int N = edges.length;
-
-        List<Integer>[] adjList = new ArrayList[N];
-        for (int i = 0; i < N; i++) {
-            adjList[i] = new ArrayList<>();
-        }
-
-        for (int[] edge : edges) {
-            boolean[] visited = new boolean[N];
-
-            // If DFS returns true, we will return the edge.
-            if (isConnected(edge[0] - 1, edge[1] - 1, visited, adjList)) {
-                return new int[] { edge[0], edge[1] };
+        int n= edges.length;
+        Disjoint disjoint =new Disjoint(n+1);
+        for(int[] edge: edges){
+            if(!disjoint.findUnion(edge[0],edge[1])){
+                return edge;
             }
+        }
+        return new int[]{-1,-1};
+    }
+}
 
-            adjList[edge[0] - 1].add(edge[1] - 1);
-            adjList[edge[1] - 1].add(edge[0] - 1);
+class Disjoint{
+    int[] rank;
+    int[] parent;
+
+    public Disjoint(int n){
+        rank= new int[n];
+        parent=new int[n];
+        for(int i=0; i< n ;i++){
+            parent[i]=i;
+        }
+    }
+
+    public int findParent(int u){
+        if(parent[u]!=u){
+            parent[u]= findParent(parent[u]);
+            return parent[u];
+        }
+        else{
+            return parent[u];
+        }
+    }
+
+    public boolean findUnion(int u , int v){
+        int ulp_u= findParent(u);
+        int ulp_v= findParent(v);
+
+        if(ulp_u==ulp_v) return false;
+
+        if(rank[ulp_u]> rank[ulp_v]){
+            parent[ulp_v]=ulp_u;
+        }
+        else if( rank[ulp_u]< rank[ulp_v]){
+            parent[ulp_u]= ulp_v;
+        }
+        else{
+             parent[ulp_u]= ulp_v;
+             rank[ulp_v]++;
         }
 
-        return new int[] {};
+        return true;
+
     }
+
+
 }
