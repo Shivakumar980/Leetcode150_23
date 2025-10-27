@@ -1,50 +1,41 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-          List<List<Integer>> adj= new ArrayList<>();
-
-         for(int i=0; i< numCourses; i++){
+        List<List<Integer>> adj= new ArrayList<>();
+        for(int i=0 ; i<numCourses ;i++){
             adj.add(new ArrayList<>());
-        }
-        //direction of the edges is reverses
-        for(int[] edge:prerequisites){
-            adj.get(edge[1]).add(edge[0]);
         }
 
         int[] indegree= new int[numCourses];
-
         for(int[] edge:prerequisites){
+            adj.get(edge[1]).add(edge[0]);
             indegree[edge[0]]++;
         }
 
-        Queue<Integer> q= new LinkedList<Integer>();
-
-        for(int i=0; i< numCourses; i++){
+        Queue<Integer> q= new LinkedList<>();
+        for(int i=0 ; i<numCourses; i++){
             if(indegree[i]==0){
                 q.offer(i);
             }
         }
-        List<Integer> result= new ArrayList<>();
+
+        int[] result= new int[numCourses];
+        int index=0;
+        int size=0;
         while(!q.isEmpty()){
-            int node= q.poll();
-            result.add(node);
-            for(int neighbour: adj.get(node)){
-                indegree[neighbour]--;
-                if(indegree[neighbour]==0){
-                    q.offer(neighbour);
+            int node= q.peek();
+            result[index++]=node;
+            size+=1;
+            q.poll();
+            for(int neighbor: adj.get(node)){
+                indegree[neighbor]--;
+                if(indegree[neighbor]==0){
+                    q.offer(neighbor);
                 }
             }
-
         }
-       if (result.size()!= numCourses){
-         return new int[]{};
-       }
-       int[] res=new int[numCourses];
-       int index=0;
+        if(size!=numCourses) return new int[]{};
+       
+        return result;
 
-       for(int num:result){
-        res[index++]=num;
-       }
-
-       return res;
     }
 }
