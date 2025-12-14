@@ -11,7 +11,7 @@ class Solution:
         root= TreeNode(postorder[-1])
         mid= inorder.index(postorder[-1])
 
-      
-        root.right= self.buildTree(inorder[mid+1:],postorder[mid:-1])
         root.left= self.buildTree(inorder[:mid], postorder[:mid])
+        root.right= self.buildTree(inorder[mid+1:],postorder[mid:-1])
+      
         return root
